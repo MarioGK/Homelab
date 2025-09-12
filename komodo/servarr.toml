@@ -45,15 +45,17 @@ commands = [
 	"mkdir -p /mnt/ssd/configs/tdarr/server",
 	"mkdir -p /mnt/ssd/configs/tdarr/config",
 	"mkdir -p /mnt/ssd/configs/unpackerr",
-	"mkdir -p /mnt/ssd/configs/beets/config",
 	"mkdir -p /mnt/ssd/configs/jellyseerr",
 	"mkdir -p /mnt/ssd/configs/qbitmanage/config",
 	"mkdir -p /mnt/ssd/configs/jellyfin/config",
 	"mkdir -p /mnt/ssd/configs/jellyfin/cache",
 	"mkdir -p /mnt/ssd/configs/calibre-web/data",
 	"mkdir -p /mnt/ssd/configs/navidrome",
+	"mkdir -p /mnt/ssd/configs/navidrome/cache",
 
 	# Set ownership and permissions
 	"chown -R 1000:1000 /mnt/ssd/configs",
 	"chmod -R 750 /mnt/ssd/configs",
+	"chown -R 1000:1000 /mnt/ssd/configs/navidrome",
+	"chmod -R 750 /mnt/ssd/configs/navidrome",
 ]
