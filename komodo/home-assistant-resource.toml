@@ -1,0 +1,19 @@
+# Komodo stack resource for Home Assistant
+# Adjust fields to match your komodo server's expected schema if needed.
+
+name = "home-assistant"
+type = "stack"
+# Path to the docker-compose file for this stack, relative to the repo root
+compose_path = "stacks/home-assistant/docker-compose.yml"
+
+# Environment variables to inject when deploying (TZ must be America/Sao_Paulo per repo policy)
+[env]
+TZ = "America/Sao_Paulo"
+
+# Optional metadata
+description = "Home Assistant container stack using host networking and persistent ./config volume."
+labels = [ "komodo.stack", "home-assistant" ]
+
+# Optional: commands komodo might run before/after deploy (examples)
+# pre_deploy = ["echo 'pre deploy hook'"]
+# post_deploy = ["echo 'post deploy hook'"]

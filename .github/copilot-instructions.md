@@ -19,3 +19,31 @@ When I push this repo, github will send a webhook to my komodo instance and upda
 
 # Timezone
 When creating new stacks, ALWAYS set the timezone to Sao Paulo (America/Sao_Paulo).
+
+# Storage layout
+
+## Media storage 16TB RAID0
+Two 8TB drives are mounted in RAID0 at `/mnt/media`. This is the primary location for all media files.
+It is using BTRFS filesystem with compression enabled.
+
+All media should be stored in `/mnt/media`. This includes:
+- Movies
+- TV Shows
+- Music
+- Ebooks
+- Audiobooks
+- Comics
+- Anime
+- Photos
+- Documents
+- Other media types
+
+## Big SSD 3.5TB called 'ssd'
+A large SSD is mounted at `/mnt/ssd`. This is used for:
+- Application's configuration files.
+- App's databases that require more space.
+- Virtual machines and containers.
+- Docker volumes for applications that require more storage space.
+
+## Small SSD 256GB called 'smol'
+A small SSD is mounted at `/mnt/smol`.
