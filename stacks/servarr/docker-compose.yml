@@ -1,0 +1,299 @@
+services:
+  lazylibrarian:
+    image: lscr.io/linuxserver/lazylibrarian:latest
+    container_name: lazylibrarian
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - DOCKER_MODS=linuxserver/mods:universal-calibre|linuxserver/mods:lazylibrarian-ffmpeg
+    volumes:
+      - /srv/apps/lazylibrarian/data:/config
+      - /mnt/media/downloads/:/downloads
+      - /mnt/media/library/books:/books
+      - /mnt/media/library/books/:/audiobooks
+    restart: unless-stopped
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+    volumes:
+      - /srv/apps/sonarr:/config
+      - /mnt/media/downloads:/downloads
+      - /mnt/media/library/tv:/tv
+      - /mnt/media/library/anime-series:/anime
+    restart: unless-stopped
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+    volumes:
+      - /srv/apps/radarr:/config
+      - /mnt/media/downloads:/downloads
+      - /mnt/media/library/movies:/movies
+      - /mnt/media/library/anime-movies:/anime
+    restart: unless-stopped
+
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:latest
+    container_name: lidarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+    volumes:
+      - /srv/apps/lidarr/config:/config
+      - /mnt/media/library/music:/music #optional
+      - /mnt/media/downloads:/downloads #optional
+    restart: unless-stopped
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+    volumes:
+      - /srv/apps/bazarr:/config
+      - /mnt/media/library/movies:/movies
+      - /mnt/media/library/tv:/tv
+      - /mnt/media/library/anime-series:/anime-series
+      - /mnt/media/library/anime-movies:/anime-movies
+    restart: unless-stopped
+
+  qbittorrent:
+    image: qbittorrentofficial/qbittorrent-nox:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - WEBUI_PORT=8080
+      - TORRENTING_PORT=6881
+    volumes:
+      - /srv/apps/qbittorrent:/config
+      - /mnt/media/downloads:/downloads
+    restart: unless-stopped
+
+  slskd:
+    image: slskd/slskd
+    container_name: slskd
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - SLSKD_REMOTE_CONFIGURATION=true
+    volumes:
+      - /srv/apps/slskd:/app
+      - /mnt/media/downloads/complete/music:/data/downloads
+      - /mnt/media/downloads/incomplete:/data/incomplete_downloads
+      - /mnt/media/library/music:/data/music
+    restart: unless-stopped
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+    volumes:
+      - /srv/apps/prowlarr:/config
+    restart: unless-stopped
+    
+  sabnzbd:
+    image: ghcr.io/hotio/sabnzbd
+    environment:
+      - WEBUI_PORTS=8082
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=${TZ}
+    volumes:
+      - /srv/apps/sabnzbd/config:/config
+      - /mnt/media/downloads:/data
+    restart: unless-stopped
+
+  flaresolverr:
+    image: flaresolverr/flaresolverr
+    container_name: flaresolverr
+    environment:
+      - TZ=${TZ}
+    restart: unless-stopped
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - TZ=${TZ}
+    command: --interval 3600 --cleanup
+    restart: unless-stopped
+
+  tdarr:
+    image: ghcr.io/haveagitgat/tdarr:latest
+    ports:
+      - "8265:8265"  # Web UI
+      - "8266:8266"  # Node API
+    environment:
+      - TZ=${TZ}
+      - PUID=1000
+      - PGID=1000
+      - UMASK_SET=002
+      - serverIP=0.0.0.0
+      - serverPort=8266
+      - webUIPort=8265
+      - internalNode=false
+      - auth=true
+      - authSecretKey= 
+    volumes:
+      - /srv/apps/tdarr/server:/app/server
+      - /srv/apps/tdarr/config:/app/configs
+      - /mnt/media/apps/tdarr/temp:/temp
+      - /mnt/media/library:/media
+    networks:
+     media_net:
+      ipv4_address: 172.20.0.3
+    restart: unless-stopped
+
+  unpackerr:
+    image: ghcr.io/hotio/unpackerr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=${TZ}
+    volumes:
+      - /srv/apps/unpackerr:/config
+      - /mnt/media/downloads:/data
+    networks:
+     media_net:
+      ipv4_address: 172.20.0.4
+    restart: unless-stopped
+
+  beets:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: beets
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+    volumes:
+      - /srv/apps/beets/config:/config
+      - /mnt/media/library/music:/music
+      - /mnt/media/downloads/complete/music:/downloads
+    ports:
+      - 8337:8337
+    networks:
+     media_net:
+      ipv4_address: 172.20.0.5
+    restart: unless-stopped
+
+  jellyseerr:
+    image: ghcr.io/hotio/jellyseerr
+    ports:
+      - "5055:5055"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ= ${TZ}
+    volumes:
+      - /srv/apps/jellyseerr:/config
+    networks:
+     media_net:
+      ipv4_address: 172.20.0.6
+    restart: unless-stopped
+
+  qbitmanage:
+    image: ghcr.io/hotio/qbitmanage
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=${TZ}
+    volumes:
+      - /srv/apps/qbitmanage/config:/config
+      - /mnt/media/downloads:/downloads
+    networks:
+     media_net:
+      ipv4_address: 172.20.0.7
+    restart: unless-stopped
+    depends_on:
+      - qbittorrent
+
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    volumes:
+      - /srv/apps/jellyfin/config:/config
+      - /srv/apps/jellyfin/cache:/cache
+      - /mnt/media/library/movies:/media/movies:ro
+      - /mnt/media/library/tv:/media/tv:ro
+      - /mnt/media/library/anime-series:/anime-series:ro
+      - /mnt/media/library/anime-movies:/anime-movies:ro
+      - /mnt/media/fonts:/usr/local/share/fonts/custom:ro
+    ports:
+      - "8096:8096" 
+      - "8920:8920"
+      - "7359:7359/udp"
+      - "1900:1900/udp"
+    environment:
+      - TZ=${TZ}
+    networks:
+     media_net:
+      ipv4_address: 172.20.0.8
+    restart: unless-stopped
+
+  calibre-web:
+    image: lscr.io/linuxserver/calibre-web:latest
+    container_name: calibre-web
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - DOCKER_MODS=linuxserver/mods:universal-calibre
+      - OAUTHLIB_RELAX_TOKEN_SCOPE=1
+    volumes:
+      - /srv/apps/calibre-web/data:/config
+      - /mnt/media/library/books:/books
+      - /mnt/media/library/books/:/audiobooks
+    ports:
+      - 8083:8083 
+    networks:
+     media_net:
+      ipv4_address: 172.20.0.9
+    restart: unless-stopped
+  
+  navidrome:
+    image: deluan/navidrome:latest
+    user: 1000:1000
+    ports:
+      - "4533:4533" 
+    environment:
+      - TZ=${TZ}
+      - ND_LOGLEVEL=info
+      - ND_SCANINTERVAL=1h
+      - ND_SESSIONTIMEOUT=24h
+    volumes:
+      - "/srv/apps/navidrome:/data"
+      - "/mnt/media/library/music:/music:ro"
+    networks:
+     media_net:
+      ipv4_address: 172.20.0.10
+    restart: unless-stopped
+
+
+
+networks:
+  media_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24

@@ -41,6 +41,7 @@ All media should be stored in `/mnt/media`. This includes:
 ## Big SSD 3.5TB called 'ssd'
 A large SSD is mounted at `/mnt/ssd`. This is used for:
 - Application's configuration files.
+    - It should be something like /mnt/ssd/configs/<app-name>
 - App's databases that require more space.
 - Virtual machines and containers.
 - Docker volumes for applications that require more storage space.
