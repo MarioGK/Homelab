@@ -1,0 +1,9 @@
+[[resource_sync]]
+name = "Homelab Sync"
+[resource_sync.config]
+linked_repo = "MarioGK/Homelab"
+webhook_secret = "KomodoHomelab"
+resource_path = ["komodo"]
+managed = true
+delete = true
+include_variables = true

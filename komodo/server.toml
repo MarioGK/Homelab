@@ -1,0 +1,4 @@
+[[server]]
+name = "MS01"
+[server.config]
+enabled = true

@@ -1,0 +1,8 @@
+[[repo]]
+name = "MarioGK/Homelab"
+[repo.config]
+server = "MS01"
+builder = "MS01"
+repo = "MarioGK/Homelab"
+path = "/repos/Homelab/"
+webhook_secret = "MarioGKHomelab"
