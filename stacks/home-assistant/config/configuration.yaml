@@ -1,0 +1,14 @@
+homeassistant:
+  name: Home
+  unit_system: metric
+  time_zone: America/Sao_Paulo
+
+#logger:
+#  default: info
+
+# Uncomment the following to enable onboarding if this is a fresh install
+onboarding:
+
+discovery:
+
+api:
