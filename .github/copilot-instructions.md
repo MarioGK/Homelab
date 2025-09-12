@@ -61,6 +61,7 @@ tags = ["test"]
 [stack.config]
 server_id = "server-prod"
 file_paths = ["mongo.yaml", "redis.yaml"]
-git_provider = "github.com"
-repo = "MarioGK/Homelab"
+server = "MS01"
+linked_repo = "MarioGK/Homelab"
+reclone = true
 ```

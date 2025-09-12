@@ -1,7 +1,9 @@
 [[stack]]
 name = "home-assistant"
 [stack.config]
-repo = "MarioGK/Homelab"
+server = "MS01"
+linked_repo = "MarioGK/Homelab"
+reclone = true
 file_paths = [
 	"stacks/home-assistant/docker-compose.yml",
 ]
