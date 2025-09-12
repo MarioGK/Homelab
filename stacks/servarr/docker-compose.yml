@@ -13,6 +13,8 @@ services:
       - /mnt/media/library/books:/books
       - /mnt/media/library/books/:/audiobooks
     restart: unless-stopped
+    ports:
+      - "5299:5299"
 
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
@@ -26,6 +28,8 @@ services:
       - /mnt/media/library/tv:/tv
       - /mnt/media/library/anime-series:/anime
     restart: unless-stopped
+    ports:
+      - "8989:8989"
 
   radarr:
     image: lscr.io/linuxserver/radarr:latest
@@ -39,6 +43,8 @@ services:
       - /mnt/media/library/movies:/movies
       - /mnt/media/library/anime-movies:/anime
     restart: unless-stopped
+    ports:
+      - "7878:7878"
 
   lidarr:
     image: lscr.io/linuxserver/lidarr:latest
@@ -52,6 +58,8 @@ services:
       - /mnt/media/library/music:/music #optional
       - /mnt/media/downloads:/downloads #optional
     restart: unless-stopped
+    ports:
+      - "8686:8686"
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
@@ -66,6 +74,8 @@ services:
       - /mnt/media/library/anime-series:/anime-series
       - /mnt/media/library/anime-movies:/anime-movies
     restart: unless-stopped
+    ports:
+      - "6767:6767"
 
   qbittorrent:
     image: qbittorrentofficial/qbittorrent-nox:latest
@@ -78,6 +88,8 @@ services:
     volumes:
       - /mnt/ssd/configs/qbittorrent:/config
       - /mnt/media/downloads:/downloads
+    ports:
+      - "8080:8080"
     restart: unless-stopped
 
   slskd:
@@ -103,6 +115,8 @@ services:
       - TZ=${TZ}
     volumes:
       - /mnt/ssd/configs/prowlarr:/config
+    ports:
+      - "9696:9696"
     restart: unless-stopped
     
   sabnzbd:
@@ -116,6 +130,8 @@ services:
     volumes:
       - /mnt/ssd/configs/sabnzbd/config:/config
       - /mnt/media/downloads:/data
+    ports:
+      - "8082:8082"
     restart: unless-stopped
 
   flaresolverr:
@@ -123,6 +139,8 @@ services:
     container_name: flaresolverr
     environment:
       - TZ=${TZ}
+    ports:
+      - "8191:8191"
     restart: unless-stopped
 
   watchtower:
@@ -169,24 +187,6 @@ services:
     volumes:
       - /mnt/ssd/configs/unpackerr:/config
       - /mnt/media/downloads:/data
-    
-    restart: unless-stopped
-
-  beets:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: beets
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=${TZ}
-    volumes:
-      - /mnt/ssd/configs/beets/config:/config
-      - /mnt/media/library/music:/music
-      - /mnt/media/downloads/complete/music:/downloads
-    ports:
-      - 8337:8337
     
     restart: unless-stopped
 
