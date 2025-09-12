@@ -4,6 +4,10 @@ name = "home-assistant"
 server = "MS01"
 linked_repo = "MarioGK/Homelab"
 reclone = true
+links = ["home.mariogk.com"]
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
 file_paths = [
 	"stacks/home-assistant/docker-compose.yml",
 ]
