@@ -236,6 +236,9 @@ services:
       - "1900:1900/udp"
     environment:
       - TZ=${TZ}
+      - LIBVA_DRIVER_NAME=iHD
+    devices:
+      - /dev/dri:/dev/dri
     
     restart: unless-stopped
 
