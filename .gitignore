@@ -1,0 +1,17 @@
+# Node, Python, and general
+venv/
+__pycache__/
+*.pyc
+node_modules/
+
+# Docker
+**/docker-compose.override.yml
+.env
+
+# Komodo local sync state
+.komodo/
+
+# Editor files
+.vscode/
+*.swp
+*.swo
