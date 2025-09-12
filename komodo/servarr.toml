@@ -1,0 +1,59 @@
+[[stack]]
+name = "servarr"
+[stack.config]
+server = "MS01"
+linked_repo = "MarioGK/Homelab"
+reclone = true
+links = ["media.mariogk.com"]
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+file_paths = [
+	"stacks/servarr/docker-compose.yml",
+]
+
+environment = """
+## Required
+
+## Timezone (must be America/Sao_Paulo)
+TZ = "America/Sao_Paulo"
+
+## Optional: set service-specific env vars here
+#PUID=1000
+#PGID=1000
+"""
+
+[[variable]]
+name = "TZ"
+value = "America/Sao_Paulo"
+is_secret = false
+
+[[provision]]
+name = "pre_deploy"
+[provision.config]
+commands = [
+	# Create base configs dir
+	"mkdir -p /mnt/ssd/configs/lazylibrarian/data",
+	"mkdir -p /mnt/ssd/configs/sonarr",
+	"mkdir -p /mnt/ssd/configs/radarr",
+	"mkdir -p /mnt/ssd/configs/lidarr/config",
+	"mkdir -p /mnt/ssd/configs/bazarr",
+	"mkdir -p /mnt/ssd/configs/qbittorrent",
+	"mkdir -p /mnt/ssd/configs/slskd",
+	"mkdir -p /mnt/ssd/configs/prowlarr",
+	"mkdir -p /mnt/ssd/configs/sabnzbd/config",
+	"mkdir -p /mnt/ssd/configs/tdarr/server",
+	"mkdir -p /mnt/ssd/configs/tdarr/config",
+	"mkdir -p /mnt/ssd/configs/unpackerr",
+	"mkdir -p /mnt/ssd/configs/beets/config",
+	"mkdir -p /mnt/ssd/configs/jellyseerr",
+	"mkdir -p /mnt/ssd/configs/qbitmanage/config",
+	"mkdir -p /mnt/ssd/configs/jellyfin/config",
+	"mkdir -p /mnt/ssd/configs/jellyfin/cache",
+	"mkdir -p /mnt/ssd/configs/calibre-web/data",
+	"mkdir -p /mnt/ssd/configs/navidrome",
+
+	# Set ownership and permissions
+	"chown -R 1000:1000 /mnt/ssd/configs",
+	"chmod -R 750 /mnt/ssd/configs",
+]

@@ -8,7 +8,7 @@ services:
       - TZ=${TZ}
       - DOCKER_MODS=linuxserver/mods:universal-calibre|linuxserver/mods:lazylibrarian-ffmpeg
     volumes:
-      - /srv/apps/lazylibrarian/data:/config
+      - /mnt/ssd/configs/lazylibrarian/data:/config
       - /mnt/media/downloads/:/downloads
       - /mnt/media/library/books:/books
       - /mnt/media/library/books/:/audiobooks
@@ -21,7 +21,7 @@ services:
       - PGID=1000
       - TZ=${TZ}
     volumes:
-      - /srv/apps/sonarr:/config
+      - /mnt/ssd/configs/sonarr:/config
       - /mnt/media/downloads:/downloads
       - /mnt/media/library/tv:/tv
       - /mnt/media/library/anime-series:/anime
@@ -34,7 +34,7 @@ services:
       - PGID=1000
       - TZ=${TZ}
     volumes:
-      - /srv/apps/radarr:/config
+      - /mnt/ssd/configs/radarr:/config
       - /mnt/media/downloads:/downloads
       - /mnt/media/library/movies:/movies
       - /mnt/media/library/anime-movies:/anime
@@ -48,7 +48,7 @@ services:
       - PGID=1000
       - TZ=${TZ}
     volumes:
-      - /srv/apps/lidarr/config:/config
+      - /mnt/ssd/configs/lidarr/config:/config
       - /mnt/media/library/music:/music #optional
       - /mnt/media/downloads:/downloads #optional
     restart: unless-stopped
@@ -60,7 +60,7 @@ services:
       - PGID=1000
       - TZ=${TZ}
     volumes:
-      - /srv/apps/bazarr:/config
+      - /mnt/ssd/configs/bazarr:/config
       - /mnt/media/library/movies:/movies
       - /mnt/media/library/tv:/tv
       - /mnt/media/library/anime-series:/anime-series
@@ -76,7 +76,7 @@ services:
       - WEBUI_PORT=8080
       - TORRENTING_PORT=6881
     volumes:
-      - /srv/apps/qbittorrent:/config
+      - /mnt/ssd/configs/qbittorrent:/config
       - /mnt/media/downloads:/downloads
     restart: unless-stopped
 
@@ -89,7 +89,7 @@ services:
       - TZ=${TZ}
       - SLSKD_REMOTE_CONFIGURATION=true
     volumes:
-      - /srv/apps/slskd:/app
+      - /mnt/ssd/configs/slskd:/app
       - /mnt/media/downloads/complete/music:/data/downloads
       - /mnt/media/downloads/incomplete:/data/incomplete_downloads
       - /mnt/media/library/music:/data/music
@@ -102,7 +102,7 @@ services:
       - PGID=1000
       - TZ=${TZ}
     volumes:
-      - /srv/apps/prowlarr:/config
+      - /mnt/ssd/configs/prowlarr:/config
     restart: unless-stopped
     
   sabnzbd:
@@ -114,7 +114,7 @@ services:
       - UMASK=002
       - TZ=${TZ}
     volumes:
-      - /srv/apps/sabnzbd/config:/config
+      - /mnt/ssd/configs/sabnzbd/config:/config
       - /mnt/media/downloads:/data
     restart: unless-stopped
 
@@ -152,13 +152,11 @@ services:
       - auth=true
       - authSecretKey= 
     volumes:
-      - /srv/apps/tdarr/server:/app/server
-      - /srv/apps/tdarr/config:/app/configs
+      - /mnt/ssd/configs/tdarr/server:/app/server
+      - /mnt/ssd/configs/tdarr/config:/app/configs
       - /mnt/media/apps/tdarr/temp:/temp
       - /mnt/media/library:/media
-    networks:
-     media_net:
-      ipv4_address: 172.20.0.3
+    
     restart: unless-stopped
 
   unpackerr:
@@ -169,11 +167,9 @@ services:
       - UMASK=002
       - TZ=${TZ}
     volumes:
-      - /srv/apps/unpackerr:/config
+      - /mnt/ssd/configs/unpackerr:/config
       - /mnt/media/downloads:/data
-    networks:
-     media_net:
-      ipv4_address: 172.20.0.4
+    
     restart: unless-stopped
 
   beets:
@@ -186,14 +182,12 @@ services:
       - PGID=1000
       - TZ=${TZ}
     volumes:
-      - /srv/apps/beets/config:/config
+      - /mnt/ssd/configs/beets/config:/config
       - /mnt/media/library/music:/music
       - /mnt/media/downloads/complete/music:/downloads
     ports:
       - 8337:8337
-    networks:
-     media_net:
-      ipv4_address: 172.20.0.5
+    
     restart: unless-stopped
 
   jellyseerr:
@@ -206,10 +200,8 @@ services:
       - UMASK=002
       - TZ= ${TZ}
     volumes:
-      - /srv/apps/jellyseerr:/config
-    networks:
-     media_net:
-      ipv4_address: 172.20.0.6
+      - /mnt/ssd/configs/jellyseerr:/config
+    
     restart: unless-stopped
 
   qbitmanage:
@@ -220,11 +212,9 @@ services:
       - UMASK=002
       - TZ=${TZ}
     volumes:
-      - /srv/apps/qbitmanage/config:/config
+      - /mnt/ssd/configs/qbitmanage/config:/config
       - /mnt/media/downloads:/downloads
-    networks:
-     media_net:
-      ipv4_address: 172.20.0.7
+    
     restart: unless-stopped
     depends_on:
       - qbittorrent
@@ -232,8 +222,8 @@ services:
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     volumes:
-      - /srv/apps/jellyfin/config:/config
-      - /srv/apps/jellyfin/cache:/cache
+      - /mnt/ssd/configs/jellyfin/config:/config
+      - /mnt/ssd/configs/jellyfin/cache:/cache
       - /mnt/media/library/movies:/media/movies:ro
       - /mnt/media/library/tv:/media/tv:ro
       - /mnt/media/library/anime-series:/anime-series:ro
@@ -246,9 +236,7 @@ services:
       - "1900:1900/udp"
     environment:
       - TZ=${TZ}
-    networks:
-     media_net:
-      ipv4_address: 172.20.0.8
+    
     restart: unless-stopped
 
   calibre-web:
@@ -261,14 +249,12 @@ services:
       - DOCKER_MODS=linuxserver/mods:universal-calibre
       - OAUTHLIB_RELAX_TOKEN_SCOPE=1
     volumes:
-      - /srv/apps/calibre-web/data:/config
+      - /mnt/ssd/configs/calibre-web/data:/config
       - /mnt/media/library/books:/books
       - /mnt/media/library/books/:/audiobooks
     ports:
       - 8083:8083 
-    networks:
-     media_net:
-      ipv4_address: 172.20.0.9
+    
     restart: unless-stopped
   
   navidrome:
@@ -282,18 +268,8 @@ services:
       - ND_SCANINTERVAL=1h
       - ND_SESSIONTIMEOUT=24h
     volumes:
-      - "/srv/apps/navidrome:/data"
+      - "/mnt/ssd/configs/navidrome:/data"
       - "/mnt/media/library/music:/music:ro"
-    networks:
-     media_net:
-      ipv4_address: 172.20.0.10
+    
     restart: unless-stopped
 
-
-
-networks:
-  media_net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.20.0.0/24
