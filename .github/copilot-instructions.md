@@ -1,5 +1,5 @@
 # Copilot Instructions
-ALWAYS use context7 to get the documentation for komodo to properly generate new komodo services.
+ALWAYS use context7 to get the documentation for komodo https://github.com/moghtech/komodo to properly generate new komodo services.
 
 ALWAYS search on the web for the documentation before creating a new stack.
 
@@ -13,7 +13,7 @@ This repository is for managing my home server using komodo. It includes configu
 When I push this repo, github will send a webhook to my komodo instance and update the services accordingly.
 
 # Tools used
-- komodo
+- komodo(https://github.com/moghtech/komodo)
 - docker
 - docker compose
 
@@ -47,3 +47,20 @@ A large SSD is mounted at `/mnt/ssd`. This is used for:
 
 ## Small SSD 256GB called 'smol'
 A small SSD is mounted at `/mnt/smol`.
+
+# Examples:
+
+### Komdo Stack example
+```toml
+[[stack]]
+name = "test-stack"
+description = "stack test"
+deploy = true
+after = ["test-logger-01"] # Stacks can depend on deployments, and vice versa.
+tags = ["test"]
+[stack.config]
+server_id = "server-prod"
+file_paths = ["mongo.yaml", "redis.yaml"]
+git_provider = "github.com"
+repo = "MarioGK/Homelab"
+```

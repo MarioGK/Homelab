@@ -1,0 +1,32 @@
+[[stack]]
+name = "home-assistant"
+[stack.config]
+repo = "MarioGK/Homelab"
+file_paths = [
+	"stacks/home-assistant/docker-compose.yml",
+]
+
+environment = """
+## Required
+
+## Timezone (must be America/Sao_Paulo)
+TZ = "America/Sao_Paulo"
+
+## Optional: set Home Assistant specific env vars here
+#PUID=1000
+#PGID=1000
+"""
+
+[[variable]]
+name = "TZ"
+value = "America/Sao_Paulo"
+is_secret = false
+
+[[provision]]
+name = "pre_deploy"
+[provision.config]
+commands = [
+	"mkdir -p /mnt/ssd/home-assistant/config",
+	"chown -R 1000:1000 /mnt/ssd/home-assistant/config",
+	"chmod -R 755 /mnt/ssd/home-assistant/config",
+]
