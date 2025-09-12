@@ -25,8 +25,7 @@ services:
     volumes:
       - /mnt/ssd/configs/sonarr:/config
       - /mnt/media/downloads:/downloads
-      - /mnt/media/library/tv:/tv
-      - /mnt/media/library/anime-series:/anime
+      - /mnt/media/library/series:/series
     restart: unless-stopped
     ports:
       - "8989:8989"
@@ -70,9 +69,7 @@ services:
     volumes:
       - /mnt/ssd/configs/bazarr:/config
       - /mnt/media/library/movies:/movies
-      - /mnt/media/library/tv:/tv
-      - /mnt/media/library/anime-series:/anime-series
-      - /mnt/media/library/anime-movies:/anime-movies
+      - /mnt/media/library/series:/series
     restart: unless-stopped
     ports:
       - "6767:6767"
@@ -225,9 +222,7 @@ services:
       - /mnt/ssd/configs/jellyfin/config:/config
       - /mnt/ssd/configs/jellyfin/cache:/cache
       - /mnt/media/library/movies:/media/movies:ro
-      - /mnt/media/library/tv:/media/tv:ro
-      - /mnt/media/library/anime-series:/anime-series:ro
-      - /mnt/media/library/anime-movies:/anime-movies:ro
+      - /mnt/media/library/series:/media/series:ro
       - /mnt/media/fonts:/usr/local/share/fonts/custom:ro
     ports:
       - "8096:8096" 
