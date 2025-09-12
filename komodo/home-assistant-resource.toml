@@ -15,5 +15,10 @@ description = "Home Assistant container stack using host networking and persiste
 labels = [ "komodo.stack", "home-assistant" ]
 
 # Optional: commands komodo might run before/after deploy (examples)
-# pre_deploy = ["echo 'pre deploy hook'"]
+pre_deploy = [
+	"mkdir -p /mnt/ssd/home-assistant/config",
+	"chown -R 1000:1000 /mnt/ssd/home-assistant/config",
+	"chmod -R 755 /mnt/ssd/home-assistant/config"
+]
+
 # post_deploy = ["echo 'post deploy hook'"]
