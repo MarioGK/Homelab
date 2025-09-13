@@ -22,3 +22,10 @@ Keep secrets out of Git. Use `stacks/<stack>/env/` for `.env` files and add them
 # Homelab
 
 This is my home lab repo that uses komodo to manage my home server.
+
+Local gateway
+-------------
+
+If you want simple, local-only hostname mapping (e.g. jellyfin.homelab -> 192.168.5.10:8096) there's a declarative stack at `stacks/local-gateway` that combines CoreDNS (zone file) and Traefik (file-based dynamic routes).
+
+See `stacks/local-gateway/README.md` for instructions and examples.

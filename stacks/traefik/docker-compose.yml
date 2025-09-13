@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  traefik:
+    image: traefik:latest
+    container_name: traefik_local_gateway
+    restart: unless-stopped
+    command:
+      - --providers.file.directory=/etc/traefik/dynamic
+      - --providers.file.watch=true
+      - --entryPoints.web.address=:80
+      - --entryPoints.websecure.address=:443
+      - --api.insecure=true
+      - --log.level=INFO
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080" # Traefik dashboard (optional)
+    volumes:
+      - ./traefik/static.yml:/etc/traefik/traefik.yml:ro
+      - ./traefik/dynamic:/etc/traefik/dynamic:ro
+
+# CoreDNS removed in favor of Blocky (a Go-based DNS + adblocker).
+# Use the `stacks/blocky` stack to run DNS and block lists. Blocky reads
+# zone entries from `stacks/blocky/hosts/hosts.zone`.

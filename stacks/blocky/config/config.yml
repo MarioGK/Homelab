@@ -1,0 +1,21 @@
+upstreamResolvers:
+  - 8.8.8.8:53
+  - 8.8.4.4:53
+
+block:
+  enabled: true
+
+cache:
+  enabled: true
+
+client:
+  timeout: 10s
+
+web:
+  port: 4000
+  username: ""
+  password: ""
+
+file:
+  enabled: true
+  path: /app/config/hosts.zone
