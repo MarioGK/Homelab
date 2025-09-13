@@ -1,12 +1,27 @@
-upstreamResolvers:
-  - 8.8.8.8:53
-  - 8.8.4.4:53
+upstreams:
+  groups:
+    default:
+      - 1.1.1.1
+      - 1.0.0.1
+      - 8.8.8.8
+      - 8.8.4.4
 
-block:
-  enabled: true
+blocking:
+  denylists:
+    ads:
+      - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+  clientGroupsBlock:
+    default:
+      - ads
 
-cache:
-  enabled: true
+caching:
+  minTime: 5m
+  maxTime: 60m
+  prefetching: true
+  exclude:
+    - /.*\.lan$/
+    - /.*\.local$/
+    #- /.*\.host\.com\.(jp|fr)$/
 
 client:
   timeout: 10s
@@ -16,6 +31,14 @@ web:
   username: ""
   password: ""
 
-file:
-  enabled: true
-  path: /app/config/hosts.zone
+hostsFile:
+  filePath: /app/config/hosts
+  hostsTTL: 1h
+  refreshPeriod: 30m
+  loading:
+    strategy: fast
+
+ports:
+  dns: 53
+  tls: 853
+  http: 4000

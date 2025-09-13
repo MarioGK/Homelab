@@ -3,14 +3,18 @@ version: "3.8"
 services:
   blocky:
     image: 0xerr0r/blocky:latest
-    container_name: blocky_local
+    container_name: blocky
     restart: unless-stopped
+    # Optional the instance hostname for logging purpose
+    hostname: blocky
     ports:
       - "53:53/tcp"
       - "53:53/udp"
+      - "853:853/tcp" # DNS over TLS (DoT)
+      - "853:853/udp"
       - "4000:4000" # Admin web UI (default)
     volumes:
       - ./config/config.yml:/app/config/config.yml:ro
-      - ./hosts/hosts.zone:/app/config/hosts.zone:ro
+      - ./hosts/hosts:/app/config/hosts:ro
     environment:
       - TZ=${TZ}

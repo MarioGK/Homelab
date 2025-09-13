@@ -1,0 +1,36 @@
+[[stack]]
+name = "blocky"
+[stack.config]
+server = "MS01"
+linked_repo = "MarioGK/Homelab"
+reclone = true
+links = ["dns.homelab"]
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+file_paths = [
+    "stacks/blocky/docker-compose.yml",
+]
+
+environment = """
+## Required
+
+TZ = "America/Sao_Paulo"
+"""
+
+[[variable]]
+name = "TZ"
+value = "America/Sao_Paulo"
+is_secret = false
+
+[[provision]]
+name = "pre_deploy"
+[provision.config]
+commands = [
+    # Ensure blocky config dir exists
+    "mkdir -p /mnt/ssd/configs/blocky/config",
+    "mkdir -p /mnt/ssd/configs/blocky/hosts",
+    # ensure permissions
+    "chown -R 1000:1000 /mnt/ssd/configs/blocky",
+    "chmod -R 750 /mnt/ssd/configs/blocky",
+]

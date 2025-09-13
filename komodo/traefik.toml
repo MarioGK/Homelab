@@ -1,0 +1,39 @@
+[[stack]]
+name = "local-gateway"
+[stack.config]
+server = "MS01"
+linked_repo = "MarioGK/Homelab"
+reclone = true
+links = ["gateway.homelab"]
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+file_paths = [
+    "stacks/local-gateway/docker-compose.yml",
+]
+
+environment = """
+## Required
+
+## Timezone (must be America/Sao_Paulo)
+TZ = "America/Sao_Paulo"
+
+## Optional: set traefik specific env vars here
+#TRAEFIK_API_USER=
+#TRAEFIK_API_PASS=
+"""
+
+[[variable]]
+name = "TZ"
+value = "America/Sao_Paulo"
+is_secret = false
+
+[[provision]]
+name = "pre_deploy"
+[provision.config]
+commands = [
+    "mkdir -p /mnt/ssd/configs/traefik/dynamic",
+    "mkdir -p /mnt/ssd/configs/traefik/static",
+    "chown -R 1000:1000 /mnt/ssd/configs/traefik",
+    "chmod -R 750 /mnt/ssd/configs/traefik",
+]
