@@ -1,0 +1,38 @@
+[[stack]]
+name = "speedtest-tracker"
+[stack.config]
+server = "MS01"
+linked_repo = "MarioGK/Homelab"
+reclone = true
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = false
+file_paths = [
+    "stacks/speedtest-tracker/docker-compose.yml",
+]
+
+environment = """
+## Required
+
+## Timezone (must be America/Sao_Paulo)
+TZ = "America/Sao_Paulo"
+
+## Optional: set service-specific env vars here
+#PUID=1000
+#PGID=1000
+"""
+
+[[variable]]
+name = "TZ"
+value = "America/Sao_Paulo"
+is_secret = false
+
+[[provision]]
+name = "pre_deploy"
+[provision.config]
+commands = [
+    # Create config dir for speedtest-tracker
+    "mkdir -p /mnt/ssd/configs/speedtest-tracker",
+    "chown -R 1000:1000 /mnt/ssd/configs/speedtest-tracker",
+    "chmod -R 750 /mnt/ssd/configs/speedtest-tracker",
+]
