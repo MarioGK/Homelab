@@ -11,8 +11,8 @@ auto_update_all_services = true
 run_directory = "stacks/blocky/"
 file_paths = ["docker-compose.yml"]
 config_files = [
-  { path = "config.yaml", services = ["blocky"], requires = "Redeploy" },
-  { path = "hosts", services = ["blocky"], requires = "Redeploy" }
+  { path = "config.yml", requires = "Restart" },
+  { path = "hosts", requires = "Restart" }
 ]
 
 environment = """
