@@ -2,3 +2,276 @@
 name = "MS01"
 [server.config]
 enabled = true
+
+##
+
+[[stack]]
+name = "blocky"
+[stack.config]
+server = "MS01"
+links = ["dns.homelab"]
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+linked_repo = "MarioGK/Homelab"
+file_paths = [
+  "stacks/blocky/docker-compose.yml"
+]
+config_files = [
+  { path = "config.yaml", services = ["blocky"], requires = "Redeploy" },
+  { path = "hosts", services = ["blocky"], requires = "Redeploy" }
+]
+environment = """
+## Required
+
+TZ = "America/Sao_Paulo"
+"""
+
+##
+
+[[stack]]
+name = "discord-alerter"
+[stack.config]
+server = "MS01"
+repo = "foxxmd/deploy-discord-alerter"
+file_paths = ["compose.yaml"]
+environment = """
+  ## Required
+
+  ## Your webhook URL
+  DISCORD_WEBHOOK = [[DISCORD_WEBHOOK]]
+
+  ## Optional
+
+  ## Set whether to include Komodo Severity Level in notification title
+  #LEVEL_IN_TITLE=true
+
+  # Prefixes messages with a checkmark when the Alert is in the 'Resolved' state
+  #INDICATE_RESOLVED=true
+
+  # Filter if an alert is pushed based on its Resolved status
+  # * leave unset to push all alerts
+  # * otherwise, alerts will only be pushed if Alert is one of the comma-separated states set here
+  #ALLOW_RESOLVED_TYPE=resolved,unresolved
+
+  ## Delay alerts with below types for X milliseconds 
+  ## and cancel pushing alert if it is resolved within that time
+  UNRESOLVED_TIMEOUT_TYPES=ServerCpu,ServerMem
+  UNRESOLVED_TIMEOUT=2000
+"""
+
+##
+
+[[stack]]
+name = "home-assistant"
+[stack.config]
+server = "MS01"
+links = ["home.mariogk.com"]
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+linked_repo = "MarioGK/Homelab"
+file_paths = [
+  "stacks/home-assistant/docker-compose.yml"
+]
+environment = """
+## Required
+
+## Timezone (must be America/Sao_Paulo)
+TZ = "America/Sao_Paulo"
+
+## Optional: set Home Assistant specific env vars here
+#PUID=1000
+#PGID=1000
+"""
+
+##
+
+[[stack]]
+name = "servarr"
+[stack.config]
+server = "MS01"
+links = ["media.mariogk.com"]
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+linked_repo = "MarioGK/Homelab"
+file_paths = [
+  "stacks/servarr/docker-compose.yml"
+]
+environment = """
+## Required
+
+## Timezone (must be America/Sao_Paulo)
+TZ = "America/Sao_Paulo"
+
+## Optional: set service-specific env vars here
+#PUID=1000
+#PGID=1000
+"""
+
+##
+
+[[stack]]
+name = "speedtest-tracker"
+[stack.config]
+server = "MS01"
+poll_for_updates = true
+auto_update = true
+linked_repo = "MarioGK/Homelab"
+file_paths = [
+  "stacks/speedtest-tracker/docker-compose.yml"
+]
+environment = """
+## Required
+
+## Timezone (must be America/Sao_Paulo)
+TZ = "America/Sao_Paulo"
+
+## Optional: set service-specific env vars here
+#PUID=1000
+#PGID=1000
+"""
+
+##
+
+[[stack]]
+name = "traefik"
+[stack.config]
+server = "MS01"
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+linked_repo = "MarioGK/Homelab"
+file_paths = [
+  "stacks/traefik/docker-compose.yml"
+]
+environment = """
+## Required
+
+## Timezone (must be America/Sao_Paulo)
+TZ = "America/Sao_Paulo"
+
+## Optional: set traefik specific env vars here
+#TRAEFIK_API_USER=
+#TRAEFIK_API_PASS=
+"""
+
+##
+
+[[repo]]
+name = "MarioGK/Homelab"
+[repo.config]
+server = "MS01"
+builder = "MS01"
+git_account = "MarioGK"
+repo = "MarioGK/Homelab"
+path = "/repos/Homelab/"
+webhook_secret = "KomodoHomelab"
+links = [
+  "https://github.com/MarioGK/Homelab"
+]
+
+##
+
+[[procedure]]
+name = "Backup Core Database"
+description = "Triggers the Core database backup at the scheduled time."
+tags = ["system"]
+config.schedule = "Every day at 01:00"
+
+[[procedure.config.stage]]
+name = "Stage 1"
+enabled = true
+executions = [
+  { execution.type = "BackupCoreDatabase", execution.params = {}, enabled = true }
+]
+
+##
+
+[[procedure]]
+name = "Global Auto Update"
+description = "Pulls and auto updates Stacks and Deployments using 'poll_for_updates' or 'auto_update'."
+tags = ["system"]
+config.schedule = "Every day at 03:00"
+
+[[procedure.config.stage]]
+name = "Stage 1"
+enabled = true
+executions = [
+  { execution.type = "GlobalAutoUpdate", execution.params = {}, enabled = true }
+]
+
+##
+
+[[procedure]]
+name = "Sync"
+config.webhook_secret = "KomodoHomelab"
+
+[[procedure.config.stage]]
+name = "Stage 1"
+enabled = true
+executions = [
+  { execution.type = "CloneRepo", execution.params.repo = "MarioGK/Homelab", enabled = true }
+]
+
+[[procedure.config.stage]]
+name = "Stage 2"
+enabled = true
+executions = [
+  { execution.type = "RunSync", execution.params.sync = "Homelab Sync", enabled = true }
+]
+
+[[procedure.config.stage]]
+name = "Stage 3"
+enabled = true
+executions = [
+  { execution.type = "BatchDeployStackIfChanged", execution.params.pattern = "*", enabled = true }
+]
+
+##
+
+[[alerter]]
+name = "discord-webhook"
+[alerter.config]
+enabled = true
+endpoint.type = "Custom"
+endpoint.params.url = "http://discord-alerter-ip:7000"
+
+##
+
+[[builder]]
+name = "MS01"
+[builder.config]
+type = "Server"
+params.server_id = "MS01"
+
+##
+
+[[resource_sync]]
+name = "Homelab Sync"
+[resource_sync.config]
+linked_repo = "MarioGK/Homelab"
+webhook_secret = "KomodoHomelab"
+resource_path = [
+  "komodo/config/server.toml",
+  "komodo"
+]
+managed = true
+delete = true
+include_variables = true
+include_user_groups = true
+
+##
+
+[[variable]]
+name = "DISCORD_WEBHOOK"
+value = "https://discord.com/api/webhooks/1416553166320963614/8gSvFdvyhDdvqm--gRTQqQbzSqElDS6tNWUdmUOr0r7WmCXTuQL0OrISPg7FpZGGSoL6"
+is_secret = false
+
+##
+
+[[variable]]
+name = "TZ"
+value = "America/Sao_Paulo"
+is_secret = false
