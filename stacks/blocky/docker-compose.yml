@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   blocky:
     image: 0xerr0r/blocky:latest
