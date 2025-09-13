@@ -3,7 +3,7 @@ name = "blocky"
 [stack.config]
 server = "MS01"
 linked_repo = "MarioGK/Homelab"
-reclone = true
+
 links = ["dns.homelab"]
 poll_for_updates = true
 auto_update = true

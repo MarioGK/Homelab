@@ -3,7 +3,7 @@ name = "servarr"
 [stack.config]
 server = "MS01"
 linked_repo = "MarioGK/Homelab"
-reclone = true
+
 links = ["media.mariogk.com"]
 poll_for_updates = true
 auto_update = true

@@ -3,7 +3,7 @@ name = "traefik"
 [stack.config]
 server = "MS01"
 linked_repo = "MarioGK/Homelab"
-reclone = true
+
 poll_for_updates = true
 auto_update = true
 auto_update_all_services = true

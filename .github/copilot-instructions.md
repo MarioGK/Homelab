@@ -64,5 +64,5 @@ server_id = "server-prod"
 file_paths = ["mongo.yaml", "redis.yaml"]
 server = "MS01"
 linked_repo = "MarioGK/Homelab"
-reclone = true
+
 ```
