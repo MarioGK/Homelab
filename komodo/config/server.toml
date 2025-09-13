@@ -14,9 +14,8 @@ poll_for_updates = true
 auto_update = true
 auto_update_all_services = true
 linked_repo = "MarioGK/Homelab"
-file_paths = [
-  "stacks/blocky/docker-compose.yml"
-]
+run_directory = "stacks/blocky/"
+file_paths = ["docker-compose.yml"]
 config_files = [
   { path = "config.yaml", services = ["blocky"], requires = "Redeploy" },
   { path = "hosts", services = ["blocky"], requires = "Redeploy" }
