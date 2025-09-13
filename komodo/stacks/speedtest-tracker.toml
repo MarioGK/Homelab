@@ -8,7 +8,7 @@ poll_for_updates = true
 auto_update = true
 auto_update_all_services = false
 file_paths = [
-    "stacks/speedtest-tracker/docker-compose.yml",
+    "composes/speedtest-tracker/docker-compose.yml",
 ]
 
 environment = """

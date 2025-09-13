@@ -8,7 +8,7 @@ links = ["dns.homelab"]
 poll_for_updates = true
 auto_update = true
 auto_update_all_services = true
-run_directory = "stacks/blocky/"
+run_directory = "composes/blocky/"
 file_paths = ["docker-compose.yml"]
 config_files = [
   { path = "config.yml", requires = "Restart" },

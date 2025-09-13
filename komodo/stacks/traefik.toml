@@ -1,15 +1,14 @@
 [[stack]]
-name = "home-assistant"
+name = "traefik"
 [stack.config]
 server = "MS01"
 linked_repo = "MarioGK/Homelab"
 
-links = ["home.mariogk.com"]
 poll_for_updates = true
 auto_update = true
 auto_update_all_services = true
 file_paths = [
-	"stacks/home-assistant/docker-compose.yml",
+    "composes/traefik/docker-compose.yml",
 ]
 
 environment = """
@@ -18,9 +17,9 @@ environment = """
 ## Timezone (must be America/Sao_Paulo)
 TZ = "America/Sao_Paulo"
 
-## Optional: set Home Assistant specific env vars here
-#PUID=1000
-#PGID=1000
+## Optional: set traefik specific env vars here
+#TRAEFIK_API_USER=
+#TRAEFIK_API_PASS=
 """
 
 [[variable]]
@@ -32,7 +31,8 @@ is_secret = false
 name = "pre_deploy"
 [provision.config]
 commands = [
-	"mkdir -p /mnt/ssd/home-assistant/config",
-	"chown -R 1000:1000 /mnt/ssd/home-assistant/config",
-	"chmod -R 755 /mnt/ssd/home-assistant/config",
+    "mkdir -p /mnt/ssd/configs/traefik/dynamic",
+    "mkdir -p /mnt/ssd/configs/traefik/static",
+    "chown -R 1000:1000 /mnt/ssd/configs/traefik",
+    "chmod -R 750 /mnt/ssd/configs/traefik",
 ]
