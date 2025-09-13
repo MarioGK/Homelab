@@ -12,7 +12,7 @@ services:
       - "853:853/udp"
       - "4000:4000" # Admin web UI (default)
     volumes:
-      - ./config/config.yml:/app/config/config.yml:ro
-      - ./hosts/hosts:/app/config/hosts:ro
+      - ./config.yml:/app/config.yml:ro
+      - ./hosts:/app/config/hosts:ro
     environment:
       - TZ=${TZ}
