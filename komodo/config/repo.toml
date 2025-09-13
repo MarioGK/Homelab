@@ -5,8 +5,7 @@ server = "MS01"
 builder = "MS01"
 git_account = "MarioGK"
 repo = "MarioGK/Homelab"
-path = "/repos/Homelab/"
-webhook_secret = "KomodoHomelab"
+webhook_enabled = false
 links = [
   "https://github.com/MarioGK/Homelab"
 ]
