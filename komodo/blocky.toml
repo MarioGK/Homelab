@@ -11,6 +11,10 @@ auto_update_all_services = true
 file_paths = [
     "stacks/blocky/docker-compose.yml",
 ]
+config_files = [
+  { path = "config.yaml", services = ["blocky"], requires = "Redeploy" },
+  { path = "hosts", services = ["blocky"], requires = "Redeploy" }
+]
 
 environment = """
 ## Required
