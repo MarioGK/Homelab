@@ -2,10 +2,9 @@
 name = "Homelab Sync"
 [resource_sync.config]
 linked_repo = "MarioGK/Homelab"
-webhook_secret = "KomodoHomelab"
+webhook_enabled = false
 resource_path = [
-  "komodo/config/server.toml",
-  "komodo"
+  "komodo/config/repo-sync.toml"
 ]
 managed = true
 delete = true
