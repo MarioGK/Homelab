@@ -26,13 +26,13 @@ environment = """
 
   ## Delay alerts with below types for X milliseconds 
   ## and cancel pushing alert if it is resolved within that time
-  #UNRESOLVED_TIMEOUT_TYPES=ServerCpu,ServerMem
-  #UNRESOLVED_TIMEOUT=2000
+  UNRESOLVED_TIMEOUT_TYPES=ServerCpu,ServerMem
+  UNRESOLVED_TIMEOUT=2000
 """
 
 [[variable]]
 name = "DISCORD_WEBHOOK"
-value = "https://discord.com/api/webhooks/0977431246518568931/bvLFKe_eqSAPf2CjU2-ESYMNFhJ815AvtCI"
+value = "https://discord.com/api/webhooks/1416553166320963614/8gSvFdvyhDdvqm--gRTQqQbzSqElDS6tNWUdmUOr0r7WmCXTuQL0OrISPg7FpZGGSoL6"
 is_secret = false
 
 [[alerter]]
