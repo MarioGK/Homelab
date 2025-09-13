@@ -1,10 +1,20 @@
 upstreams:
+  init:
+    strategy: fast
   groups:
     default:
+      # example for tcp+udp IPv4 server (https://digitalcourage.de/)
+      - 5.9.164.112
+      # Cloudflare
       - 1.1.1.1
       - 1.0.0.1
+      # Google
       - 8.8.8.8
       - 8.8.4.4
+    laptop*:
+      - 123.123.123.123
+  strategy: parallel_best
+  timeout: 2s
 
 blocking:
   denylists:
