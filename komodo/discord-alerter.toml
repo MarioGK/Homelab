@@ -1,6 +1,7 @@
 [[stack]]
 name = "discord-alerter"
 [stack.config]
+server = "MS01"
 repo = "foxxmd/deploy-discord-alerter"
 file_paths = [
   "compose.yaml",
