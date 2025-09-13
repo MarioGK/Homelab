@@ -7,3 +7,4 @@ resource_path = ["komodo"]
 managed = true
 delete = true
 include_variables = true
+include_user_groups = true

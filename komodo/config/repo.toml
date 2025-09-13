@@ -3,6 +3,10 @@ name = "MarioGK/Homelab"
 [repo.config]
 server = "MS01"
 builder = "MS01"
+git_account = "MarioGK"
 repo = "MarioGK/Homelab"
 path = "/repos/Homelab/"
 webhook_secret = "KomodoHomelab"
+links = [
+  "https://github.com/MarioGK/Homelab"
+]
