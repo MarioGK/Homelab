@@ -6,6 +6,7 @@ Structure added:
 
 - `stacks/` - docker-compose stacks (one folder per stack)
 - `komodo/` - Komodo sync resources and templates
+- `komodo/config/` - Komodo configuration (e.g. server definitions)
 - `scripts/` - helper scripts (deploy helpers)
 
 Quick start
