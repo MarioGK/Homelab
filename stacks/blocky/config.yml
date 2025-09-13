@@ -16,6 +16,14 @@ upstreams:
   strategy: parallel_best
   timeout: 2s
 
+upstreamResolvers:
+  default:
+    - 5.9.164.112
+    - 1.1.1.1
+    - 1.0.0.1
+    - 8.8.8.8
+    - 8.8.4.4
+
 blocking:
   denylists:
     ads:

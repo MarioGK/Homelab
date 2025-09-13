@@ -13,6 +13,7 @@ services:
       - "4000:4000" # Admin web UI (default)
     volumes:
       - ./config.yml:/app/config.yml:ro
+      - ./config.yml:/app/config/config.yml:ro
       - ./hosts:/app/config/hosts:ro
     environment:
       - TZ=${TZ}
