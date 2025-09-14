@@ -15,10 +15,10 @@ environment = """
   ## Optional
 
   ## Set whether to include Komodo Severity Level in notification title
-  #LEVEL_IN_TITLE=true
+  LEVEL_IN_TITLE=true
 
   # Prefixes messages with a checkmark when the Alert is in the 'Resolved' state
-  #INDICATE_RESOLVED=true
+  INDICATE_RESOLVED=true
 
   # Filter if an alert is pushed based on its Resolved status
   # * leave unset to push all alerts
@@ -30,11 +30,6 @@ environment = """
   UNRESOLVED_TIMEOUT_TYPES=ServerCpu,ServerMem
   UNRESOLVED_TIMEOUT=2000
 """
-
-[[variable]]
-name = "DISCORD_WEBHOOK"
-value = "https://discord.com/api/webhooks/1416553166320963614/8gSvFdvyhDdvqm--gRTQqQbzSqElDS6tNWUdmUOr0r7WmCXTuQL0OrISPg7FpZGGSoL6"
-is_secret = false
 
 [[alerter]]
 name = "discord-webhook"
