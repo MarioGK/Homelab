@@ -221,8 +221,8 @@ services:
     volumes:
       - /mnt/ssd/configs/jellyfin/config:/config
       - /mnt/ssd/configs/jellyfin/cache:/cache
-      - /mnt/media/library/movies:/media/movies:ro
-      - /mnt/media/library/series:/media/series:ro
+      - /mnt/media/library/movies:/media/movies
+      - /mnt/media/library/series:/media/series
       - /mnt/media/fonts:/usr/local/share/fonts/custom:ro
     ports:
       - "8096:8096" 
