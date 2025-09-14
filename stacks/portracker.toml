@@ -1,0 +1,32 @@
+[[stack]]
+name = "portracker"
+[stack.config]
+server = "MS01"
+linked_repo = "MarioGK/Homelab"
+
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+run_directory = "composes/portracker/"
+
+environment = """
+## Required
+
+TZ = "America/Sao_Paulo"
+"""
+
+[[variable]]
+name = "TZ"
+value = "America/Sao_Paulo"
+is_secret = false
+
+[[provision]]
+name = "pre_deploy"
+[provision.config]
+commands = [
+  # Create config dir for portracker
+  "mkdir -p /mnt/ssd/configs/portracker/data",
+  # Ensure ownership and permissions match other services
+  "chown -R 1000:1000 /mnt/ssd/configs/portracker",
+  "chmod -R 750 /mnt/ssd/configs/portracker",
+]

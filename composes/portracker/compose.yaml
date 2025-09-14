@@ -1,0 +1,24 @@
+services:
+  portracker:
+    image: mostafawahied/portracker:latest
+    container_name: portracker
+    restart: unless-stopped
+    # Required for port detection
+    pid: "host"
+    # Required permissions for system ports / service namespace access
+    cap_add:
+      - SYS_PTRACE     # Linux hosts: read other PIDs' /proc entries
+      - SYS_ADMIN      # Docker Desktop: allow namespace access for host ports (required for MacOS)
+    security_opt:
+      - apparmor:unconfined # Required for system ports
+    volumes:
+      # Data persistence (mapped to SSD config area)
+      - /mnt/ssd/configs/portracker/data:/data
+      # Required for discovering services running in Docker
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - "4999:4999"
+    environment:
+      - TZ=${TZ}
+      # Optional: For enhanced TrueNAS features
+      # - TRUENAS_API_KEY=your-api-key-here

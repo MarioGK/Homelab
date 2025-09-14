@@ -271,3 +271,46 @@ services:
     
     restart: unless-stopped
 
+  dasharr:
+    image: schenanigans/dasharr:latest
+    container_name: dasharr
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./config:/app/config
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ}
+      APP_URL: http://192.168.5.10:3000
+      TRUST_PROXY: true
+      # Services
+      # Jellyfin
+      JELLYFIN_URL: http://your-jellyfin:8096
+      JELLYFIN_API_KEY: yourapikey
+      # Jellyseerr
+      JELLYSEERR_URL: http://your-jellyseerr:5055
+      JELLYSEERR_API_KEY: yourapikey
+      # Radarr
+      RADARR_URL: http://your-radarr:7878
+      RADARR_API_KEY: yourapikey
+      # Sonarr
+      SONARR_URL: http://your-sonarr:8989
+      SONARR_API_KEY: yourapikey
+      # Prowlarr
+      PROWLARR_URL: http://your-prowlarr:9696
+      PROWLARR_API_KEY: yourapikey
+      # qBittorrent
+      QBITTORRENT_URL: http://your-qbittorrent:8080
+      QBITTORRENT_USERNAME: mariogk
+      QBITTORRENT_PASSWORD: mariogk
+      # Unifi
+      UNIFI_SITES: 1
+      UNIFI_URL_SITE_1: https://your-unifi:8443
+      UNIFI_API_KEY_1: yourapikey
+      UNIFI_SITE_NAME_1: default
+      UNIFI_SITE_MANAGER: true
+      UNIFI_SITE_MANAGER_API_KEY: yourapikey
+      # Security
+      SESSION_SECRET: 9DUwsRwwzRzCQWaF31xWKBI3sMevvgcdPivUnMZ14F4=
+      LOG_LEVEL: info
+

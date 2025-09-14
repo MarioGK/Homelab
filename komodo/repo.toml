@@ -5,7 +5,6 @@ server = "MS01"
 builder = "MS01"
 git_account = "MarioGK"
 repo = "MarioGK/Homelab"
-path = "/ssd/repos/Homelab/"
 webhook_enabled = false
 links = [
   "https://github.com/MarioGK/Homelab"

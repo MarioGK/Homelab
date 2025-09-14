@@ -7,6 +7,8 @@ Only create README.md for stacks and services only if necessary.
 
 DO NOT add version to docker compose files.
 
+ALWAYS READ ALL THE FILES ON THE REPOSITORY TO UNDERSTAND THE CONTEXT BEFORE CREATING A NEW STACK OR SERVICE.
+
 # Context
 This repository is for managing my home server using komodo. It includes configurations for various services and applications that I run on my home lab setup.
 

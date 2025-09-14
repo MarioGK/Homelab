@@ -10,4 +10,4 @@ services:
       - "443:443"
       - "8088:8080" # Traefik dashboard (optional)
     volumes:
-      - /mnt/ssd/configs/komodo/repos/Homelab/composes/traefik:/etc/traefik:ro
+      - ./traefik:/etc/traefik:ro
