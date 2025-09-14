@@ -1,5 +1,0 @@
-[[builder]]
-name = "MS01"
-[builder.config]
-type = "Server"
-params.server_id = "MS01"
