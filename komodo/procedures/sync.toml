@@ -3,21 +3,28 @@ name = "Sync"
 config.webhook_secret = "KomodoHomelab"
 
 [[procedure.config.stage]]
-name = "Stage 1"
+name = "Clone Repo"
 enabled = true
 executions = [
   { execution.type = "CloneRepo", execution.params.repo = "MarioGK/Homelab", enabled = true }
 ]
 
 [[procedure.config.stage]]
-name = "Stage 2"
+name = "Pull Again just to make sure"
+enabled = true
+executions = [
+  { execution.type = "PullRepo", execution.params.repo = "MarioGK/Homelab", enabled = true }
+]
+
+[[procedure.config.stage]]
+name = "Sync resources"
 enabled = true
 executions = [
   { execution.type = "RunSync", execution.params.sync = "Homelab Sync", enabled = true }
 ]
 
 [[procedure.config.stage]]
-name = "Stage 3"
+name = "Back deploy stacks"
 enabled = true
 executions = [
   { execution.type = "BatchDeployStackIfChanged", execution.params.pattern = "*", enabled = true }
