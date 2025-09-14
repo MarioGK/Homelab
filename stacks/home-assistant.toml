@@ -8,9 +8,7 @@ links = ["home.mariogk.com"]
 poll_for_updates = true
 auto_update = true
 auto_update_all_services = true
-file_paths = [
-	"composes/home-assistant/docker-compose.yml",
-]
+run_directory = "composes/home-assistant/"
 
 environment = """
 ## Required

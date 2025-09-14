@@ -7,9 +7,7 @@ linked_repo = "MarioGK/Homelab"
 poll_for_updates = true
 auto_update = true
 auto_update_all_services = false
-file_paths = [
-    "composes/speedtest-tracker/docker-compose.yml",
-]
+run_directory = "composes/speedtest-tracker/"
 
 environment = """
 ## Required

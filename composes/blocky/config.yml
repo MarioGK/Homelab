@@ -9,18 +9,12 @@ upstreams:
     # format for resolver: [net:]host:[port][/path]. net could be empty (default, shortcut for tcp+udp), tcp+udp, tcp, udp, tcp-tls or https (DoH). If port is empty, default port will be used (53 for udp and tcp, 853 for tcp-tls, 443 for https (Doh))
     # this configuration is mandatory, please define at least one external DNS resolver
     default:
-      # example for tcp+udp IPv4 server (https://digitalcourage.de/)
-      - 5.9.164.112
       # Cloudflare
       - 1.1.1.1
-      # example for DNS-over-TLS server (DoT)
-      - tcp-tls:fdns1.dismail.de:853
-      # example for DNS-over-HTTPS (DoH)
-      - https://dns.digitale-gesellschaft.ch/dns-query
-    # optional: use client name (with wildcard support: * - sequence of any characters, [0-9] - range)
-    # or single ip address / client subnet as CIDR notation
-    laptop*:
-      - 123.123.123.123
+      - 1.0.0.1
+      # Google
+      - 8.8.8.8
+      - 8.8.4.4
   # optional: Determines what strategy blocky uses to choose the upstream servers.
   # accepted: parallel_best, strict, random
   # default: parallel_best
@@ -259,19 +253,11 @@ minTlsServeVersion: 1.3
 bootstrapDns:
   - tcp+udp:1.1.1.1
   - https://1.1.1.1/dns-query
-  - upstream: https://dns.digitale-gesellschaft.ch/dns-query
-    ips:
-      - 185.95.218.42
-
-# optional: drop all queries with following query types. Default: empty
-filtering:
-  queryTypes:
-    - AAAA
 
 # optional: return NXDOMAIN for queries that are not FQDNs.
 fqdnOnly:
   # default: false
-  enable: true
+  enable: false
 
 # optional: if path defined, use this file for query resolution (A, AAAA and rDNS). Default: empty
 hostsFile:
@@ -341,7 +327,7 @@ log:
 # optional: add EDE error codes to dns response
 ede:
   # enabled if true, Default: false
-  enable: true
+  enable: false
 
 # optional: configure optional Special Use Domain Names (SUDN)
 specialUseDomains:
