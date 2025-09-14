@@ -12,6 +12,6 @@ services:
       - "853:853/udp"
       - "4000:4000" # Admin web UI (default)
     volumes:
-      - ./config.yml:/app/config.yml:ro
+      - /mnt/ssd/configs/komodo/repos/Homelab/composes/blocky/config.yml:/app/config.yml:ro
     environment:
       - TZ=${TZ}
