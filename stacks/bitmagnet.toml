@@ -1,0 +1,33 @@
+[[stack]]
+name = "bitmagnet"
+[stack.config]
+server = "MS01"
+linked_repo = "MarioGK/Homelab"
+
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+run_directory = "composes/bitmagnet/"
+
+environment = """
+## Required
+
+TZ = "America/Sao_Paulo"
+"""
+
+[[variable]]
+name = "TZ"
+value = "America/Sao_Paulo"
+is_secret = false
+
+[[provision]]
+name = "pre_deploy"
+[provision.config]
+commands = [
+  # Create config and data dirs for bitmagnet
+  "mkdir -p /mnt/ssd/configs/bitmagnet/config",
+  "mkdir -p /mnt/ssd/configs/bitmagnet/data/postgres",
+  # Ensure ownership and permissions
+  "chown -R 1000:1000 /mnt/ssd/configs/bitmagnet",
+  "chmod -R 750 /mnt/ssd/configs/bitmagnet",
+]

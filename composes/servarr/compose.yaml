@@ -99,21 +99,6 @@ services:
     ports:
       - "9696:9696"
     restart: unless-stopped
-    
-  sabnzbd:
-    image: ghcr.io/hotio/sabnzbd
-    environment:
-      - WEBUI_PORTS=8082
-      - PUID=1000
-      - PGID=1000
-      - UMASK=002
-      - TZ=${TZ}
-    volumes:
-      - /mnt/ssd/configs/sabnzbd/config:/config
-      - /mnt/media/downloads:/data
-    ports:
-      - "8082:8082"
-    restart: unless-stopped
 
   flaresolverr:
     image: flaresolverr/flaresolverr
