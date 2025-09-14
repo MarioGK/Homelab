@@ -40,7 +40,6 @@ services:
       - /mnt/ssd/configs/radarr:/config
       - /mnt/media/downloads:/downloads
       - /mnt/media/library/movies:/movies
-      - /mnt/media/library/anime-movies:/anime
     restart: unless-stopped
     ports:
       - "7878:7878"
@@ -87,21 +86,6 @@ services:
       - /mnt/media/downloads:/downloads
     ports:
       - "8080:8080"
-    restart: unless-stopped
-
-  slskd:
-    image: slskd/slskd
-    container_name: slskd
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=${TZ}
-      - SLSKD_REMOTE_CONFIGURATION=true
-    volumes:
-      - /mnt/ssd/configs/slskd:/app
-      - /mnt/media/downloads/complete/music:/data/downloads
-      - /mnt/media/downloads/incomplete:/data/incomplete_downloads
-      - /mnt/media/library/music:/data/music
     restart: unless-stopped
 
   prowlarr:
@@ -223,6 +207,7 @@ services:
       - /mnt/ssd/configs/jellyfin/cache:/cache
       - /mnt/media/library/movies:/media/movies
       - /mnt/media/library/series:/media/series
+      - /mnt/media/library/music:/media/music
       - /mnt/media/fonts:/usr/local/share/fonts/custom:ro
     ports:
       - "8096:8096" 
