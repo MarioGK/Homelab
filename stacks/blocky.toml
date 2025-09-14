@@ -10,7 +10,7 @@ auto_update = true
 auto_update_all_services = true
 run_directory = "composes/blocky/"
 config_files = [
-  { path = "config.yml", requires = "Restart" }
+  { path = "config.yml", services = ["blocky"], requires = "Restart" }
 ]
 
 environment = """
