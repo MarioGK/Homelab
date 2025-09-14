@@ -8,6 +8,10 @@ poll_for_updates = true
 auto_update = true
 auto_update_all_services = true
 run_directory = "composes/traefik/"
+config_files = [
+  { path = "config.yml", services = ["traefik"], requires = "Restart" },
+  { path = "dynamic/hosts.yml", services = ["traefik"], requires = "Restart" }
+]
 
 environment = """
 ## Required
