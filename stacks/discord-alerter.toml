@@ -36,4 +36,4 @@ name = "discord-webhook"
 [alerter.config]
 enabled = true
 endpoint.type = "Custom"
-endpoint.params.url = "http://discord-alerter-ip:7000"
+endpoint.params.url = "http://192.168.5.10:7000"
