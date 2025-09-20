@@ -245,16 +245,17 @@ services:
   # Music
   syncify:
     image: thewicklowwolf/syncify:latest
-    container_name: syncify_mariogk
+    container_name: syncify
+    #user: 1000:1000
     environment:
-      - PUID=1000
-      - PGID=1000
+      #- PUID=1000
+      #- PGID=1000:10001000
       - TZ=${TZ}
       - thread_limit=10
       - crop_album_art=false
     volumes:
       - /mnt/ssd/configs/syncify/config:/syncify/config
-      - /mnt/media/library/music/mariogk:/syncify/downloads
+      - /mnt/media/library/music:/syncify/downloads
       - /etc/localtime:/etc/localtime:ro
     ports:
       - 8686:5000
