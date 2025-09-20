@@ -145,21 +145,6 @@ services:
     
     restart: unless-stopped
 
-  qbitmanage:
-    image: ghcr.io/hotio/qbitmanage
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - UMASK=002
-      - TZ=${TZ}
-    volumes:
-      - /mnt/ssd/configs/qbitmanage/config:/config
-      - /mnt/media/downloads:/downloads
-    
-    restart: unless-stopped
-    depends_on:
-      - qbittorrent
-
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     volumes:
