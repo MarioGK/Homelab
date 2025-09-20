@@ -94,16 +94,6 @@ services:
       - "8191:8191"
     restart: unless-stopped
 
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      - TZ=${TZ}
-    command: --interval 3600 --cleanup
-    restart: unless-stopped
-
   tdarr:
     image: ghcr.io/haveagitgat/tdarr:latest
     ports:
