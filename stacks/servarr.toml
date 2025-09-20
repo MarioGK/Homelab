@@ -48,8 +48,6 @@ commands = [
 	"mkdir -p /mnt/ssd/configs/jellyfin/config",
 	"mkdir -p /mnt/ssd/configs/jellyfin/cache",
 	"mkdir -p /mnt/ssd/configs/calibre-web/data",
-	"mkdir -p /mnt/ssd/configs/navidrome",
-	"mkdir -p /mnt/ssd/configs/navidrome/cache",
 
 	# Set ownership and permissions
 	"chown -R 1000:1000 /mnt/ssd/configs",
