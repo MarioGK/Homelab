@@ -243,37 +243,21 @@ services:
       - SUGGESTARR_PORT=${SUGGESTARR_PORT:-5000}
 
   # Music
-  lidarr:
-    image: lscr.io/linuxserver/lidarr:latest
-    container_name: lidarr
+  syncify:
+    image: thewicklowwolf/syncify:latest
+    container_name: syncify_mariogk
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=${TZ}
-    volumes:
-      - /mnt/ssd/configs/lidarr/config:/config
-      - /mnt/media/library/music:/music
-      - /mnt/media/downloads:/downloads
-      - /mnt/media/downloads/lidatube:/lidatube
-    restart: unless-stopped
-    ports:
-      - "8686:8686"
-
-  lidatube:
-    image: thewicklowwolf/lidatube:latest
-    container_name: lidatube
-    environment:
-      - lidarr_address=http://192.165.5.10:8686
-      - lidarr_apikey=d65a4935f9114ef79bae2db9e6a06d6f
       - thread_limit=10
-      - secondary_search=YTDLP
-      - TZ=${TZ}
+      - crop_album_art=false
     volumes:
-      - /mnt/ssd/configs/lidatube/config:/lidatube/config
-      - /mnt/media/downloads/lidatube:/downloads
+      - /mnt/ssd/configs/syncify/config:/syncify/config
+      - /mnt/media/library/music/mariogk:/syncify/downloads
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - 8687:5000
+      - 8686:5000
     restart: unless-stopped
     
   navidrome:
