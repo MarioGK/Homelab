@@ -57,4 +57,5 @@ USER ${USERNAME}
 WORKDIR /home/${USERNAME}
 
 # Install the npm tool globally
-RUN npm install -g @anthropic-ai/claude-code && which claude
+RUN npm install -g @anthropic-ai/claude-code && which claude && \
+    npm i -g opencode-ai@latest && which opencode
