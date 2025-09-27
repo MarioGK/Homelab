@@ -316,13 +316,14 @@ install_opencode() {
     return 0
   fi
   log "Attempting to install opencode (best-effort)"
-  # Try npm global install if npm is available
-  if command -v npm >/dev/null 2>&1; then
-    npm install -g opencode || npm install -g @openai/opencode || true
-  fi
-  # Try pip as fallback
-  if command -v pip >/dev/null 2>&1; then
-    pip install opencode || true
+  # Prefer paru opencode-bin if paru is available, otherwise try npm global install
+  if command -v paru >/dev/null 2>&1; then
+    log "Installing opencode via paru (opencode-bin)"
+    paru -S ${PARU_FLAGS} opencode-bin || log "paru failed to install opencode-bin; falling back"
+  else
+    if command -v npm >/dev/null 2>&1; then
+      npm i -g opencode-ai@latest || true
+    fi
   fi
   if command -v opencode >/dev/null 2>&1; then
     log "opencode installed"
