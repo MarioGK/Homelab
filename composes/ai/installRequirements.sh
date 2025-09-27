@@ -332,6 +332,102 @@ install_opencode() {
   fi
 }
 
+install_avahi() {
+  # Install avahi (mDNS) and nss-mdns so the container can be discovered as <name>.local on the LAN.
+  if pacman -Q avahi >/dev/null 2>&1; then
+    log "avahi already installed"
+  else
+    log "Installing avahi and nss-mdns"
+    pacman -S --noconfirm avahi nss-mdns || true
+  fi
+
+  # Ensure nsswitch.conf includes mdns lookup for hosts (idempotent)
+  if [[ -w /etc/nsswitch.conf ]]; then
+    if grep -q 'mdns_minimal' /etc/nsswitch.conf; then
+      log "/etc/nsswitch.conf already contains mdns_minimal entry"
+    else
+      log "Adding mdns_minimal entry to /etc/nsswitch.conf"
+      # Insert mdns_minimal before 'hosts:' lookups fallback to files dns
+      sed -i 's/^hosts:\s*/hosts: files mdns_minimal [NOTFOUND=return] /' /etc/nsswitch.conf || true
+    fi
+  else
+    log "/etc/nsswitch.conf not writable; skipping mdns config"
+  fi
+
+  # Start avahi-daemon (use systemctl if available, otherwise run in background)
+  if command -v systemctl >/dev/null 2>&1 && systemctl --version >/dev/null 2>&1; then
+    log "Enabling and starting avahi-daemon via systemctl"
+    systemctl enable avahi-daemon || true
+    systemctl start avahi-daemon || true
+  else
+    # Ensure dbus is available and running (avahi requires dbus)
+    if pacman -Q dbus >/dev/null 2>&1; then
+      log "dbus already installed"
+    else
+      log "Installing dbus"
+      pacman -S --noconfirm dbus || true
+    fi
+
+    # Start dbus-daemon in background if not running
+    if pgrep -f dbus-daemon >/dev/null 2>&1; then
+      log "dbus-daemon already running"
+    else
+      log "Starting dbus-daemon in background"
+      # Create runtime dir if missing
+      mkdir -p /var/run/dbus || true
+      dbus-daemon --system --fork >/dev/null 2>&1 || true
+    fi
+
+    # Try to run avahi-daemon in background if binary exists
+    if command -v avahi-daemon >/dev/null 2>&1; then
+      # If already running, skip
+      if pgrep -f avahi-daemon >/dev/null 2>&1; then
+        log "avahi-daemon already running"
+      else
+        log "Starting avahi-daemon in background"
+        /usr/sbin/avahi-daemon --no-chroot >/dev/null 2>&1 &
+      fi
+    else
+      log "avahi-daemon not found after install attempts"
+    fi
+  fi
+}
+
+set_container_hostname() {
+  # If CONTAINER_DOMAIN is provided (e.g., ai1.local), set the system hostname accordingly
+  local domain=${CONTAINER_DOMAIN:-}
+  if [[ -z "$domain" ]]; then
+    log "CONTAINER_DOMAIN not set; skipping hostname change"
+    return 0
+  fi
+
+  # strip .local suffix if present
+  local hostonly
+  hostonly=${domain%%.local}
+  # If hostonly equals domain it didn't contain .local; try strip after last '.' anyway
+  if [[ "$hostonly" == "$domain" && "$domain" == *.* ]]; then
+    hostonly=${domain%%.*}
+  fi
+
+  if [[ -z "$hostonly" ]]; then
+    log "Derived empty hostname from CONTAINER_DOMAIN ($domain); skipping"
+    return 0
+  fi
+
+  # Set /etc/hostname (idempotent)
+  if [[ -w /etc/hostname ]] || [[ ! -e /etc/hostname ]]; then
+    if [[ "$(cat /etc/hostname 2>/dev/null || echo)" == "$hostonly" ]]; then
+      log "Hostname already set to $hostonly"
+    else
+      log "Setting hostname to $hostonly"
+      printf '%s\n' "$hostonly" > /etc/hostname
+      hostname "$hostonly" || true
+    fi
+  else
+    log "/etc/hostname not writable; skipping hostname file write"
+  fi
+}
+
 install_aider() {
   if [[ "$SKIP_AIDER" == "1" ]]; then
     log "Skipping aider install due to SKIP_AIDER=1"
@@ -454,6 +550,12 @@ main() {
 
   # Start sshd
   start_sshd
+
+  # Set hostname based on CONTAINER_DOMAIN env var (used for mDNS name)
+  set_container_hostname || log "set_container_hostname failed (continuing)"
+
+  # Install and start avahi so the container announces <hostname>.local on the LAN
+  install_avahi || log "install_avahi failed (continuing)"
 
   # Install developer tools (best-effort)
   install_dotnet || true

@@ -5,8 +5,9 @@ services:
     volumes:
       - ai1-data:/mnt/ssd/ais/ai1
       - ./installRequirements.sh:/installRequirements.sh:ro
-    networks:
-      - ai-network
+    network_mode: host
+    environment:
+      - CONTAINER_DOMAIN=ai1
     entrypoint: ["bash","/installRequirements.sh"]
 
   ai2:
@@ -15,8 +16,9 @@ services:
     volumes:
       - ai2-data:/mnt/ssd/ais/ai2
       - ./installRequirements.sh:/installRequirements.sh:ro
-    networks:
-      - ai-network
+    network_mode: host
+    environment:
+      - CONTAINER_DOMAIN=ai2
     entrypoint: ["bash","/installRequirements.sh"]
 
   ai3:
@@ -25,8 +27,9 @@ services:
     volumes:
       - ai3-data:/mnt/ssd/ais/ai3
       - ./installRequirements.sh:/installRequirements.sh:ro
-    networks:
-      - ai-network
+    network_mode: host
+    environment:
+      - CONTAINER_DOMAIN=ai3
     entrypoint: ["bash","/installRequirements.sh"]
 
   ai4:
@@ -35,8 +38,9 @@ services:
     volumes:
       - ai4-data:/mnt/ssd/ais/ai4
       - ./installRequirements.sh:/installRequirements.sh:ro
-    networks:
-      - ai-network
+    network_mode: host
+    environment:
+      - CONTAINER_DOMAIN=ai4
     entrypoint: ["bash","/installRequirements.sh"]
 
   ai5:
@@ -45,8 +49,9 @@ services:
     volumes:
       - ai5-data:/mnt/ssd/ais/ai5
       - ./installRequirements.sh:/installRequirements.sh:ro
-    networks:
-      - ai-network
+    network_mode: host
+    environment:
+      - CONTAINER_DOMAIN=ai5
     entrypoint: ["bash","/installRequirements.sh"]
 
 volumes:
@@ -55,6 +60,3 @@ volumes:
   ai3-data:
   ai4-data:
   ai5-data:
-
-networks:
-  ai-network:
