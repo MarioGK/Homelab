@@ -1,5 +1,5 @@
 [[deployment]]
-name = "ai1"
+name = "ai2"
 [deployment.config]
 server = "MS01"
 image.type = "Build"
@@ -7,5 +7,5 @@ image.params.build = "ai-arch"
 redeploy_on_build = true
 command = "sleep infinity"
 volumes = """
-/mnt/ssd/ais/ai1:/mnt/
+/mnt/ssd/ais/ai2:/mnt/
 """

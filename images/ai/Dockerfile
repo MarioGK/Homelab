@@ -59,3 +59,6 @@ WORKDIR /home/${USERNAME}
 # Install the npm tool globally
 RUN npm install -g @anthropic-ai/claude-code && which claude && \
     npm i -g opencode-ai@latest && which opencode
+
+RUN export ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic
+RUN export ANTHROPIC_AUTH_TOKEN=80022a10eaa6464985bbc6cdb557c6cf.H7quMcSxAuAPWbzV
