@@ -17,6 +17,8 @@ SSH_AUTH="/root/.ssh/authorized_keys"
 SSH_KEY="${SSH_PUBLIC_KEY:-your_public_ssh_key_here}"
 PARU_BIN="/usr/bin/paru"
 MAX_WAIT=60
+# Default flags for non-interactive paru usage
+PARU_FLAGS="--noconfirm --needed --noprogressbar"
 # Optional environment flags to skip specific installers (set to 1 to skip)
 SKIP_DOTNET=${SKIP_DOTNET:-0}
 SKIP_NODE=${SKIP_NODE:-0}
@@ -132,6 +134,42 @@ install_paru() {
   log "paru installed"
 }
 
+# Configure /etc/paru.conf: backup and set BottomUp and SkipReview
+configure_paru_conf() {
+  local conf="/etc/paru.conf"
+  local ts
+  ts=$(date +%Y%m%d%H%M%S)
+
+  if [[ ! -e "$conf" ]]; then
+    log "$conf not found; skipping paru.conf modification"
+    return 0
+  fi
+
+  if [[ ! -w "$conf" ]]; then
+    # Try to create backup with sudo if current user cannot write; fail gracefully
+    cp "$conf" "$conf.bak.$ts" 2>/dev/null || sudo cp "$conf" "$conf.bak.$ts" || {
+      log "Failed to create backup of $conf; skipping modifications"
+      return 0
+    }
+  else
+    cp "$conf" "$conf.bak.$ts" || log "Failed to create backup of $conf"
+  fi
+  log "Backup created: $conf.bak.$ts"
+
+  # If '#BottomUp' exists, replace it with 'BottomUp' and add 'SkipReview' on the next line.
+  # If 'BottomUp' already present and SkipReview missing, ensure SkipReview is present.
+  if grep -q '^[[:space:]]*#\s*BottomUp' "$conf"; then
+    sed -i 's/^[[:space:]]*#\s*BottomUp/BottomUp\nSkipReview/' "$conf" || true
+    log "Replaced commented '#BottomUp' with 'BottomUp and SkipReview' in $conf"
+  else
+    # If BottomUp is present but SkipReview missing, append SkipReview after BottomUp
+    if grep -q '^[[:space:]]*BottomUp' "$conf" && ! grep -q '^[[:space:]]*SkipReview' "$conf"; then
+      sed -i '/^[[:space:]]*BottomUp/a SkipReview' "$conf" || true
+      log "Added 'SkipReview' after existing 'BottomUp' in $conf"
+    fi
+  fi
+}
+
 # Installers for additional developer tools (idempotent / best-effort)
 install_dotnet() {
   if [[ "$SKIP_DOTNET" == "1" ]]; then
@@ -175,7 +213,7 @@ install_dotnet() {
         # Fall back to AUR via paru
         if command -v paru >/dev/null 2>&1; then
           log "Installing $p via paru (AUR)"
-          paru -S --noconfirm "$p" || log "paru failed to install $p"
+          paru -S ${PARU_FLAGS} "$p" || log "paru failed to install $p"
         else
           log "Package $p not in repos and paru unavailable; skipping $p"
         fi
@@ -205,7 +243,7 @@ install_node_and_npm() {
   else
     log "npm not found after pacman install; trying AUR via paru"
     if command -v paru >/dev/null 2>&1; then
-      paru -S --noconfirm npm || true
+      paru -S ${PARU_FLAGS} npm || true
     fi
   fi
 }
@@ -336,6 +374,50 @@ start_sshd() {
   fi
 }
 
+# Configure /etc/pacman.conf: backup, uncomment Color, and set ParallelDownloads = 50
+configure_pacman() {
+  local conf="/etc/pacman.conf"
+  local ts
+  ts=$(date +%Y%m%d%H%M%S)
+
+  if [[ ! -w "$conf" ]]; then
+    log "${conf} not writable or missing; skipping pacman.conf modification"
+    return 0
+  fi
+
+  # Create a timestamped backup
+  cp "$conf" "$conf.bak.$ts" || log "Failed to create backup of $conf"
+  log "Backup created: $conf.bak.$ts"
+
+  # Uncomment a leading '#Color' (idempotent)
+  if grep -q '^[[:space:]]*#\s*Color' "$conf"; then
+    sed -i 's/^[[:space:]]*#\s*Color/Color/' "$conf" || true
+    log "Uncommented 'Color' in $conf"
+  else
+    log "'Color' already uncommented or not present in $conf"
+  fi
+
+  # Set ParallelDownloads = 50 (handle commented, uncommented, or missing cases idempotently)
+  if grep -q '^[[:space:]]*ParallelDownloads' "$conf"; then
+    sed -i 's/^[[:space:]]*ParallelDownloads.*$/ParallelDownloads = 50/' "$conf" || true
+    log "Set existing ParallelDownloads to 50 in $conf"
+  elif grep -q '^[[:space:]]*#\s*ParallelDownloads' "$conf"; then
+    sed -i 's/^[[:space:]]*#\s*ParallelDownloads.*$/ParallelDownloads = 50/' "$conf" || true
+    log "Uncommented and set ParallelDownloads = 50 in $conf"
+  else
+    # If [options] exists, add the setting immediately after it; otherwise append to end of file
+    if grep -q '^\[options\]' "$conf"; then
+      if ! grep -q '^[[:space:]]*ParallelDownloads' "$conf"; then
+        sed -i '/^\[options\]/a ParallelDownloads = 50' "$conf" || true
+        log "Added ParallelDownloads = 50 under [options] in $conf"
+      fi
+    else
+      echo -e "\n# Added by installRequirements.sh\nParallelDownloads = 50" >> "$conf" || true
+      log "Appended ParallelDownloads = 50 to end of $conf"
+    fi
+  fi
+}
+
 main() {
   wait_for_network
 
@@ -343,6 +425,9 @@ main() {
     log "pacman lock unresolved, exiting."
     exit 1
   fi
+
+  # Configure pacman settings (backup + set Color and ParallelDownloads)
+  configure_pacman || log "configure_pacman failed (continuing)"
 
   # Update package database + system (safe to run repeatedly)
   log "Updating system packages (pacman -Syu)"
@@ -356,6 +441,9 @@ main() {
 
   # Install paru from AUR if missing
   install_paru || log "paru installation failed (continuing)"
+
+  # Configure paru.conf (backup + set BottomUp and SkipReview)
+  configure_paru_conf || log "configure_paru_conf failed (continuing)"
 
   # Clean pacman cache (optional, idempotent)
   log "Cleaning pacman cache"
