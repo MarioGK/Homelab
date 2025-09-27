@@ -1,0 +1,13 @@
+[[resource_sync]]
+name = "Homelab Sync"
+[resource_sync.config]
+linked_repo = "MarioGK/Homelab"
+webhook_enabled = false
+resource_path = [
+  "komodo/server.toml",
+  "stacks/",
+  "komodo/"
+]
+managed = true
+delete = true
+include_user_groups = true
