@@ -1,73 +1,65 @@
 FROM alpine:latest
 
-RUN apk update
-
-# Install dotnet 10 dependencies
+# Install base packages and runtime dependencies in one layer
+ARG DOTNET_SDK_URL="https://builds.dotnet.microsoft.com/dotnet/Sdk/10.0.100-rc.1.25451.107/dotnet-sdk-10.0.100-rc.1.25451.107-linux-musl-x64.tar.gz"
 RUN apk add --no-cache \
-    build-base \
-    bash \
-    curl \
-    icu-libs \
-    krb5-libs \
-    libgcc \
-    libintl \
-    libssl3 \
-    libstdc++ \
-    zlib \
-    wget
+        bash \
+        build-base \
+        ca-certificates \
+        curl \
+        icu-libs \
+        krb5-libs \
+        libgcc \
+        libintl \
+        libssl3 \
+        libstdc++ \
+        zlib \
+        wget \
+        git \
+        iputils \
+        nodejs \
+        npm \
+        openssh \
+        python3 \
+        py3-pip \
+        sudo \
+    && update-ca-certificates
 
-ENV DOTNET_SDK_URL="https://builds.dotnet.microsoft.com/dotnet/Sdk/10.0.100-rc.1.25451.107/dotnet-sdk-10.0.100-rc.1.25451.107-linux-musl-x64.tar.gz"
-RUN wget -O dotnet-sdk.tar.gz $DOTNET_SDK_URL
-RUN mkdir -p /usr/share/dotnet
-RUN tar -zxf dotnet-sdk.tar.gz -C /usr/share/dotnet
-RUN rm dotnet-sdk.tar.gz
-RUN ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
-RUN export DOTNET_ROOT=/usr/share/dotnet
-RUN export PATH=$PATH:/usr/share/dotnet
-RUN echo 'export DOTNET_ROOT=/usr/share/dotnet' >> /etc/profile
-RUN echo 'export PATH=$PATH:/usr/share/dotnet' >> /etc/profile
+## Install .NET SDK: download, extract, symlink in one layer to keep image small
+RUN wget -qO dotnet-sdk.tar.gz "$DOTNET_SDK_URL" \
+    && mkdir -p /usr/share/dotnet \
+    && tar -zxf dotnet-sdk.tar.gz -C /usr/share/dotnet \
+    && rm dotnet-sdk.tar.gz \
+    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
 
-RUN dotnet --version
+# Make dotnet available via environment (persists to later stages/users)
+ENV DOTNET_ROOT=/usr/share/dotnet
+ENV PATH=/usr/share/dotnet:${PATH}
 
-RUN apk add --no-cache \
-    avahi \
-    dbus \
-    git \
-    iputils \
-    nodejs \
-    npm \
-    openssh \
-    python3 \
-    py3-pip \
-    sudo
-
-#Setup a non-root user
+# Create an unprivileged user and prepare npm global directory
 ARG USERNAME=mariogk
 ARG USER_UID=1000
-ARG USER_GID=$USER_UID
-RUN addgroup -g $USER_GID $USERNAME \
-    && adduser -u $USER_UID -G $USERNAME -s /bin/bash -D $USERNAME \
-    && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+ARG USER_GID=${USER_UID}
+RUN addgroup -g ${USER_GID} ${USERNAME} \
+    && adduser -u ${USER_UID} -G ${USERNAME} -s /bin/bash -D ${USERNAME} \
+    && echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
+    && mkdir -p /home/${USERNAME}/.npm-global \
+    && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
+
+# Ensure npm global binaries for the unprivileged user will be on PATH
+ENV NPM_CONFIG_PREFIX=/home/${USERNAME}/.npm-global
+ENV PATH=/home/${USERNAME}/.npm-global/bin:${PATH}
 
 # Switch to non-root user
-USER $USERNAME
-WORKDIR /home/$USERNAME
+USER ${USERNAME}
+WORKDIR /home/${USERNAME}
 
-# Make sure that dotnet is available in the PATH for the non-root user
-ENV DOTNET_ROOT=/usr/share/dotnet
-ENV PATH=$PATH:/usr/share/dotnet
-RUN echo 'export DOTNET_ROOT=/usr/share/dotnet' >> /home/$USERNAME/.bashrc
-RUN echo 'export PATH=$PATH:/usr/share/dotnet' >> /home/$USERNAME/.bashrc
-RUN source /home/$USERNAME/.bashrc
-# Verify installation
-RUN dotnet --version
+# Configure npm prefix for the user and verify dotnet is available
+RUN npm config set prefix "$NPM_CONFIG_PREFIX" \
+    && dotnet --version
 
-#Install claude code
+# Install claude-code globally (will be installed into user's npm prefix)
 RUN npm install -g @anthropic-ai/claude-code
 
-#Make sure that npm global packages are available in the PATH
-ENV PATH=$PATH:/home/$USERNAME/.npm-global/bin
-RUN echo 'export PATH=$PATH:/home/$USERNAME/.npm-global/bin' >> /home/$USERNAME/.bashrc
-RUN source /home/$USERNAME/.bashrc
 # Verify installation
 RUN which claude-code
