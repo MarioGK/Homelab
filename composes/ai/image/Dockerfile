@@ -1,7 +1,7 @@
 FROM alpine:latest
 
-# Install base packages and runtime dependencies in one layer
 ARG DOTNET_SDK_URL="https://builds.dotnet.microsoft.com/dotnet/Sdk/10.0.100-rc.1.25451.107/dotnet-sdk-10.0.100-rc.1.25451.107-linux-musl-x64.tar.gz"
+
 RUN apk add --no-cache \
         bash \
         build-base \
@@ -47,20 +47,14 @@ RUN addgroup -g ${USER_GID} ${USERNAME} \
     && mkdir -p /home/${USERNAME}/.npm-global \
     && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
 
-# Ensure npm global binaries for the unprivileged user will be on PATH
+# Set ENV for npm's global prefix and add its bin to the PATH
+# This is the correct way to make global tools available to subsequent layers
 ENV NPM_CONFIG_PREFIX=/home/${USERNAME}/.npm-global
-ENV PATH=/home/${USERNAME}/.npm-global/bin:${PATH}
+ENV PATH=${NPM_CONFIG_PREFIX}/bin:${PATH}
 
 # Switch to non-root user
 USER ${USERNAME}
 WORKDIR /home/${USERNAME}
 
-# Configure npm prefix for the user and verify dotnet is available
-RUN npm config set prefix "$NPM_CONFIG_PREFIX" \
-    && echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc \
-    && echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.profile \
-    && source ~/.bashrc
-
-RUN npm install -g @anthropic-ai/claude-code
-
-RUN which claude-code
+# Install the npm tool globally
+RUN npm install -g @anthropic-ai/claude-code && which claude
