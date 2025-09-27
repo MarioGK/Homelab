@@ -3,7 +3,6 @@ name = "ai-arch"
 [build.config]
 builder = "MS01"
 image_name = "ai"
-image_tag = "latest"
 linked_repo = "MarioGK/Homelab"
 webhook_enabled = false
 build_path = "composes/ai/image/"
