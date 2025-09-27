@@ -3,7 +3,7 @@ services:
     image: archlinux:latest
     container_name: ai1
     volumes:
-      - ai1-data:/mnt/ssd/ais/ai1
+      - /mnt/ssd/ais/ai1:/
       - ./installRequirements.sh:/installRequirements.sh:ro
     network_mode: host
     environment:
@@ -14,7 +14,7 @@ services:
     image: archlinux:latest
     container_name: ai2
     volumes:
-      - ai2-data:/mnt/ssd/ais/ai2
+      - /mnt/ssd/ais/ai2:/
       - ./installRequirements.sh:/installRequirements.sh:ro
     network_mode: host
     environment:
@@ -25,7 +25,7 @@ services:
     image: archlinux:latest
     container_name: ai3
     volumes:
-      - ai3-data:/mnt/ssd/ais/ai3
+      - /mnt/ssd/ais/ai3:/
       - ./installRequirements.sh:/installRequirements.sh:ro
     network_mode: host
     environment:
@@ -36,7 +36,7 @@ services:
     image: archlinux:latest
     container_name: ai4
     volumes:
-      - ai4-data:/mnt/ssd/ais/ai4
+      - /mnt/ssd/ais/ai4:/
       - ./installRequirements.sh:/installRequirements.sh:ro
     network_mode: host
     environment:
@@ -47,16 +47,9 @@ services:
     image: archlinux:latest
     container_name: ai5
     volumes:
-      - ai5-data:/mnt/ssd/ais/ai5
+      - /mnt/ssd/ais/ai5:/
       - ./installRequirements.sh:/installRequirements.sh:ro
     network_mode: host
     environment:
       - CONTAINER_DOMAIN=ai5
     entrypoint: ["bash","/installRequirements.sh"]
-
-volumes:
-  ai1-data:
-  ai2-data:
-  ai3-data:
-  ai4-data:
-  ai5-data:
