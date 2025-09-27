@@ -1,0 +1,22 @@
+[[stack]]
+name = "ai"
+description = "Stack for deploying Arch Linux containers"
+deploy = true
+server = "MS01"
+linked_repo = "MarioGK/Homelab"
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+run_directory = "composes/ai/"
+
+environment = """
+## Required
+
+## Timezone (must be America/Sao_Paulo)
+TZ = "America/Sao_Paulo"
+"""
+
+[[variable]]
+name = "TZ"
+value = "America/Sao_Paulo"
+is_secret = false
