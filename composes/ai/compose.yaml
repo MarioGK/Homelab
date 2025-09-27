@@ -1,55 +1,53 @@
 services:
   ai1:
-    image: archlinux:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: local/ai-base
     container_name: ai1
     volumes:
       - /mnt/ssd/ais/ai1:/mnt/
-      - ./installRequirements.sh:/installRequirements.sh:ro
     network_mode: host
     environment:
       - CONTAINER_DOMAIN=ai1
-    entrypoint: ["bash","/installRequirements.sh"]
+      - TZ=America/Sao_Paulo
 
   ai2:
-    image: archlinux:latest
+    image: local/ai-base
     container_name: ai2
     volumes:
       - /mnt/ssd/ais/ai2:/mnt/
-      - ./installRequirements.sh:/installRequirements.sh:ro
     network_mode: host
     environment:
       - CONTAINER_DOMAIN=ai2
-    entrypoint: ["bash","/installRequirements.sh"]
+      - TZ=America/Sao_Paulo
 
   ai3:
-    image: archlinux:latest
+    image: local/ai-base
     container_name: ai3
     volumes:
       - /mnt/ssd/ais/ai3:/mnt/
-      - ./installRequirements.sh:/installRequirements.sh:ro
     network_mode: host
     environment:
       - CONTAINER_DOMAIN=ai3
-    entrypoint: ["bash","/installRequirements.sh"]
+      - TZ=America/Sao_Paulo
 
   ai4:
-    image: archlinux:latest
+    image: local/ai-base
     container_name: ai4
     volumes:
       - /mnt/ssd/ais/ai4:/mnt/
-      - ./installRequirements.sh:/installRequirements.sh:ro
     network_mode: host
     environment:
       - CONTAINER_DOMAIN=ai4
-    entrypoint: ["bash","/installRequirements.sh"]
+      - TZ=America/Sao_Paulo
 
   ai5:
-    image: archlinux:latest
+    image: local/ai-base
     container_name: ai5
     volumes:
       - /mnt/ssd/ais/ai5:/mnt/
-      - ./installRequirements.sh:/installRequirements.sh:ro
     network_mode: host
     environment:
       - CONTAINER_DOMAIN=ai5
-    entrypoint: ["bash","/installRequirements.sh"]
+      - TZ=America/Sao_Paulo
