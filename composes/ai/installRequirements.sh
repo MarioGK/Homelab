@@ -17,6 +17,13 @@ SSH_AUTH="/root/.ssh/authorized_keys"
 SSH_KEY="${SSH_PUBLIC_KEY:-your_public_ssh_key_here}"
 PARU_BIN="/usr/bin/paru"
 MAX_WAIT=60
+# Optional environment flags to skip specific installers (set to 1 to skip)
+SKIP_DOTNET=${SKIP_DOTNET:-0}
+SKIP_NODE=${SKIP_NODE:-0}
+SKIP_BUN=${SKIP_BUN:-0}
+SKIP_CLAUDE=${SKIP_CLAUDE:-0}
+SKIP_OPENCODE=${SKIP_OPENCODE:-0}
+SKIP_AIDER=${SKIP_AIDER:-0}
 
 log() { printf '%s %s\n' "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" "$*"; }
 
@@ -125,6 +132,196 @@ install_paru() {
   log "paru installed"
 }
 
+# Installers for additional developer tools (idempotent / best-effort)
+install_dotnet() {
+  if [[ "$SKIP_DOTNET" == "1" ]]; then
+    log "Skipping dotnet install due to SKIP_DOTNET=1"
+    return 0
+  fi
+  if command -v dotnet >/dev/null 2>&1; then
+    log "dotnet already installed: $(dotnet --version 2>/dev/null || echo installed)"
+    return 0
+  fi
+  log "Attempting to install dotnet preview packages (best-effort)"
+  # Preferred package list (AUR names / common packaging for preview builds)
+  local pkgs=(
+    dotnet-targeting-pack-preview-bin
+    dotnet-sdk-preview-bin
+    dotnet-host-preview-bin
+    aspnet-targeting-pack-preview-bin
+    dotnet-runtime-preview-bin
+    aspnet-runtime-preview-bin
+  )
+
+  # If any preview package is already installed, skip install step for that package
+  local to_install=()
+  for p in "${pkgs[@]}"; do
+    if pacman -Q "$p" >/dev/null 2>&1; then
+      log "Package $p already installed"
+    else
+      to_install+=("$p")
+    fi
+  done
+
+  if [[ ${#to_install[@]} -eq 0 ]]; then
+    log "All requested dotnet preview packages already installed"
+  else
+    # Try pacman first for any package that might exist in repos
+    for p in "${to_install[@]}"; do
+      if pacman -Si "$p" >/dev/null 2>&1; then
+        log "Installing $p via pacman"
+        pacman -S --noconfirm "$p" || true
+      else
+        # Fall back to AUR via paru
+        if command -v paru >/dev/null 2>&1; then
+          log "Installing $p via paru (AUR)"
+          paru -S --noconfirm "$p" || log "paru failed to install $p"
+        else
+          log "Package $p not in repos and paru unavailable; skipping $p"
+        fi
+      fi
+    done
+  fi
+  if command -v dotnet >/dev/null 2>&1; then
+    log "dotnet installed: $(dotnet --version 2>/dev/null || echo installed)"
+  else
+    log "dotnet installation not detected after attempts"
+  fi
+}
+
+install_node_and_npm() {
+  if [[ "$SKIP_NODE" == "1" ]]; then
+    log "Skipping node/npm install due to SKIP_NODE=1"
+    return 0
+  fi
+  if command -v node >/dev/null 2>&1; then
+    log "node already installed: $(node --version 2>/dev/null || echo installed)"
+  else
+    log "Installing nodejs and npm via pacman"
+    pacman -S --noconfirm nodejs npm || true
+  fi
+  if command -v npm >/dev/null 2>&1; then
+    log "npm available: $(npm --version 2>/dev/null || echo installed)"
+  else
+    log "npm not found after pacman install; trying AUR via paru"
+    if command -v paru >/dev/null 2>&1; then
+      paru -S --noconfirm npm || true
+    fi
+  fi
+}
+
+install_bun() {
+  if [[ "$SKIP_BUN" == "1" ]]; then
+    log "Skipping bun install due to SKIP_BUN=1"
+    return 0
+  fi
+  if command -v bun >/dev/null 2>&1; then
+    log "bun already installed: $(bun --version 2>/dev/null || echo installed)"
+    return 0
+  fi
+  log "Installing bun using official installer"
+  # Install to root home (idempotent if run multiple times)
+  if curl -fsSL https://bun.sh/install | bash -s -- --no-check || true; then
+    # Installer typically places bun under /root/.bun/bin/bun, add a system symlink
+    if [[ -x "/root/.bun/bin/bun" ]]; then
+      ln -sf /root/.bun/bin/bun /usr/local/bin/bun || true
+      log "bun installed and symlinked to /usr/local/bin/bun"
+    else
+      log "bun installer ran but expected binary not found; check /root/.bun/bin"
+    fi
+  else
+    log "bun installer failed"
+  fi
+}
+
+install_claude_code_cli() {
+  if [[ "$SKIP_CLAUDE" == "1" ]]; then
+    log "Skipping Claude Code CLI install due to SKIP_CLAUDE=1"
+    return 0
+  fi
+  # There are multiple community CLIs for Anthropic/Claude — try a few common install methods
+  if command -v claude >/dev/null 2>&1 || command -v "claude-code" >/dev/null 2>&1; then
+    log "Claude CLI already present"
+    return 0
+  fi
+  log "Attempting to install Claude Code CLI (best-effort)."
+  # Try npm global package (community packages may exist)
+  if command -v npm >/dev/null 2>&1; then
+    npm install -g @anthropic/claude || npm install -g claude-code || true
+  fi
+  # Try pip as fallback
+  if command -v pip >/dev/null 2>&1; then
+    pip install claude || pip install claude-cli || true
+  fi
+  # If still not available, attempt to clone a likely GitHub repo (best-effort, no guarantees)
+  if ! command -v claude >/dev/null 2>&1 && command -v git >/dev/null 2>&1; then
+    tmp="$(mktemp -d)"
+    log "Cloning potential Claude CLI repos to $tmp (best-effort)"
+    git clone https://github.com/anthropic/claude.git "$tmp/claude" >/dev/null 2>&1 || true
+    # No reliable install step is guaranteed here; user may need to adjust.
+    rm -rf "$tmp"
+  fi
+  if command -v claude >/dev/null 2>&1; then
+    log "Claude CLI installed"
+  else
+    log "Claude CLI not found after attempts — manual install may be required"
+  fi
+}
+
+install_opencode() {
+  if [[ "$SKIP_OPENCODE" == "1" ]]; then
+    log "Skipping opencode install due to SKIP_OPENCODE=1"
+    return 0
+  fi
+  if command -v opencode >/dev/null 2>&1; then
+    log "opencode already installed"
+    return 0
+  fi
+  log "Attempting to install opencode (best-effort)"
+  # Try npm global install if npm is available
+  if command -v npm >/dev/null 2>&1; then
+    npm install -g opencode || npm install -g @openai/opencode || true
+  fi
+  # Try pip as fallback
+  if command -v pip >/dev/null 2>&1; then
+    pip install opencode || true
+  fi
+  if command -v opencode >/dev/null 2>&1; then
+    log "opencode installed"
+  else
+    log "opencode not detected after attempts"
+  fi
+}
+
+install_aider() {
+  if [[ "$SKIP_AIDER" == "1" ]]; then
+    log "Skipping aider install due to SKIP_AIDER=1"
+    return 0
+  fi
+  if command -v aider >/dev/null 2>&1; then
+    log "aider already installed"
+    return 0
+  fi
+  log "Attempting to install aider (best-effort)."
+  # Try pip first (aider has Python-based distributions)
+  if command -v pip >/dev/null 2>&1; then
+    pip install aider || pip install git+https://github.com/replicate/aider || true
+  fi
+  # Try npm fallback
+  if command -v npm >/dev/null 2>&1; then
+    npm install -g aider || true
+  fi
+  # Try cargo (some dev tools are distributed via cargo)
+  if command -v cargo >/dev/null 2>&1; then
+    cargo install aider || true
+  fi
+  if command -v aider >/dev/null 2>&1; then
+    log "aider installed: $(aider --version 2>/dev/null || echo installed)"
+  else
+    log "aider not found after attempts"
+  fi
+}
+
 start_sshd() {
   if command -v systemctl >/dev/null 2>&1 && systemctl --version >/dev/null 2>&1; then
     log "Using systemctl to enable/start sshd"
@@ -166,6 +363,14 @@ main() {
 
   # Start sshd
   start_sshd
+
+  # Install developer tools (best-effort)
+  install_dotnet || true
+  install_node_and_npm || true
+  install_bun || true
+  install_claude_code_cli || true
+  install_opencode || true
+  install_aider || true
 
   # Create sentinel to mark completion
   mkdir -p "$(dirname "$SENTINEL")"

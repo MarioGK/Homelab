@@ -5,7 +5,7 @@ services:
     image: archlinux:latest
     container_name: ai-1
     volumes:
-      - ai-1-data:/mnt/ssd/ai-1
+      - ai-1-data:/mnt/ssd/ais/ai-1
       - ./installRequirements.sh:/installRequirements.sh:ro
     networks:
       - ai-network
@@ -15,7 +15,7 @@ services:
     image: archlinux:latest
     container_name: ai-2
     volumes:
-      - ai-2-data:/mnt/ssd/ai-2
+      - ai-2-data:/mnt/ssd/ais/ai-2
       - ./installRequirements.sh:/installRequirements.sh:ro
     networks:
       - ai-network
@@ -25,7 +25,7 @@ services:
     image: archlinux:latest
     container_name: ai-3
     volumes:
-      - ai-3-data:/mnt/ssd/ai-3
+      - ai-3-data:/mnt/ssd/ais/ai-3
       - ./installRequirements.sh:/installRequirements.sh:ro
     networks:
       - ai-network
@@ -35,7 +35,7 @@ services:
     image: archlinux:latest
     container_name: ai-4
     volumes:
-      - ai-4-data:/mnt/ssd/ai-4
+      - ai-4-data:/mnt/ssd/ais/ai-4
       - ./installRequirements.sh:/installRequirements.sh:ro
     networks:
       - ai-network
@@ -45,7 +45,7 @@ services:
     image: archlinux:latest
     container_name: ai-5
     volumes:
-      - ai-5-data:/mnt/ssd/ai-5
+      - ai-5-data:/mnt/ssd/ais/ai-5
       - ./installRequirements.sh:/installRequirements.sh:ro
     networks:
       - ai-network
