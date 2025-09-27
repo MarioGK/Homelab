@@ -451,6 +451,7 @@ install_aider() {
         # Some packages expose console entry points differently; try running module as script
         python3 -m aider_install || true
       fi
+    fi
   fi
   if command -v aider >/dev/null 2>&1; then
     log "aider installed: $(aider --version 2>/dev/null || echo installed)"
