@@ -3,7 +3,11 @@ name = "Homelab Sync"
 [resource_sync.config]
 repo = "MarioGK/Homelab"
 git_account = "MarioGK"
-resource_path = ["komodo/", "stacks/"]
+resource_path = [
+  "komodo/server.toml",
+  "stacks/",
+  "komodo/"
+]
 webhook_enabled = false
 managed = true
 delete = true
