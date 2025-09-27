@@ -5,4 +5,4 @@ builder = "MS01"
 image_name = "ai"
 linked_repo = "MarioGK/Homelab"
 webhook_enabled = false
-build_path = "composes/ai/image/"
+build_path = "images/ai/"
