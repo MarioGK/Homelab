@@ -1,6 +1,6 @@
 [[stack]]
 name = "ai"
-description = "Stack for deploying Arch Linux containers"
+[stack.config]
 deploy = true
 server = "MS01"
 linked_repo = "MarioGK/Homelab"
