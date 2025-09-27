@@ -30,7 +30,8 @@ RUN wget -qO dotnet-sdk.tar.gz "$DOTNET_SDK_URL" \
     && mkdir -p /usr/share/dotnet \
     && tar -zxf dotnet-sdk.tar.gz -C /usr/share/dotnet \
     && rm dotnet-sdk.tar.gz \
-    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
+    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
+    && dotnet --list-sdks
 
 # Make dotnet available via environment (persists to later stages/users)
 ENV DOTNET_ROOT=/usr/share/dotnet
@@ -55,9 +56,10 @@ USER ${USERNAME}
 WORKDIR /home/${USERNAME}
 
 # Configure npm prefix for the user and verify dotnet is available
-RUN npm config set prefix "$NPM_CONFIG_PREFIX"
-
-RUN dotnet --version
+RUN npm config set prefix "$NPM_CONFIG_PREFIX" \
+    && echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc \
+    && echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.profile \
+    && source ~/.bashrc
 
 RUN npm install -g @anthropic-ai/claude-code
 
