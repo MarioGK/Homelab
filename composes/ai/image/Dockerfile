@@ -55,11 +55,10 @@ USER ${USERNAME}
 WORKDIR /home/${USERNAME}
 
 # Configure npm prefix for the user and verify dotnet is available
-RUN npm config set prefix "$NPM_CONFIG_PREFIX" \
-    && dotnet --version
+RUN npm config set prefix "$NPM_CONFIG_PREFIX"
 
-# Install claude-code globally (will be installed into user's npm prefix)
+RUN dotnet --version
+
 RUN npm install -g @anthropic-ai/claude-code
 
-# Verify installation
 RUN which claude-code
