@@ -31,9 +31,9 @@ commands = [
     "chmod -R 777 /mnt/ssd/ais",
 
     #Create individual dirs for each container
-    "mkdir -p /mnt/ssd/ais/ai-1",
-    "mkdir -p /mnt/ssd/ais/ai-2",
-    "mkdir -p /mnt/ssd/ais/ai-3",
-    "mkdir -p /mnt/ssd/ais/ai-4",
-    "mkdir -p /mnt/ssd/ais/ai-5",
+    "mkdir -p /mnt/ssd/ais/ai1",
+    "mkdir -p /mnt/ssd/ais/ai2",
+    "mkdir -p /mnt/ssd/ais/ai3",
+    "mkdir -p /mnt/ssd/ais/ai4",
+    "mkdir -p /mnt/ssd/ais/ai5",
 ]

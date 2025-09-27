@@ -341,18 +341,20 @@ install_aider() {
     log "aider already installed"
     return 0
   fi
-  log "Attempting to install aider (best-effort)."
-  # Try pip first (aider has Python-based distributions)
-  if command -v pip >/dev/null 2>&1; then
-    pip install aider || pip install git+https://github.com/replicate/aider || true
-  fi
-  # Try npm fallback
-  if command -v npm >/dev/null 2>&1; then
-    npm install -g aider || true
-  fi
-  # Try cargo (some dev tools are distributed via cargo)
-  if command -v cargo >/dev/null 2>&1; then
-    cargo install aider || true
+
+  log "Attempting to install aider via 'python -m pip install aider-install'"
+  # Prefer python -m pip install aider-install, then run aider-install
+  if command -v python3 >/dev/null 2>&1; then
+    python3 -m pip install --upgrade pip || true
+    if python3 -m pip install aider-install; then
+      log "aider-install package installed via pip"
+      if command -v aider-install >/dev/null 2>&1; then
+        log "Running 'aider-install' to complete installation"
+        aider-install || log "aider-install command failed"
+      else
+        # Some packages expose console entry points differently; try running module as script
+        python3 -m aider_install || true
+      fi
   fi
   if command -v aider >/dev/null 2>&1; then
     log "aider installed: $(aider --version 2>/dev/null || echo installed)"

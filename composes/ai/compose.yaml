@@ -1,60 +1,60 @@
 services:
-  ai-1:
+  ai1:
     image: archlinux:latest
-    container_name: ai-1
+    container_name: ai1
     volumes:
-      - ai-1-data:/mnt/ssd/ais/ai-1
+      - ai1-data:/mnt/ssd/ais/ai1
       - ./installRequirements.sh:/installRequirements.sh:ro
     networks:
       - ai-network
     entrypoint: ["bash","/installRequirements.sh"]
 
-  ai-2:
+  ai2:
     image: archlinux:latest
-    container_name: ai-2
+    container_name: ai2
     volumes:
-      - ai-2-data:/mnt/ssd/ais/ai-2
+      - ai2-data:/mnt/ssd/ais/ai2
       - ./installRequirements.sh:/installRequirements.sh:ro
     networks:
       - ai-network
     entrypoint: ["bash","/installRequirements.sh"]
 
-  ai-3:
+  ai3:
     image: archlinux:latest
-    container_name: ai-3
+    container_name: ai3
     volumes:
-      - ai-3-data:/mnt/ssd/ais/ai-3
+      - ai3-data:/mnt/ssd/ais/ai3
       - ./installRequirements.sh:/installRequirements.sh:ro
     networks:
       - ai-network
     entrypoint: ["bash","/installRequirements.sh"]
 
-  ai-4:
+  ai4:
     image: archlinux:latest
-    container_name: ai-4
+    container_name: ai4
     volumes:
-      - ai-4-data:/mnt/ssd/ais/ai-4
+      - ai4-data:/mnt/ssd/ais/ai4
       - ./installRequirements.sh:/installRequirements.sh:ro
     networks:
       - ai-network
     entrypoint: ["bash","/installRequirements.sh"]
 
-  ai-5:
+  ai5:
     image: archlinux:latest
-    container_name: ai-5
+    container_name: ai5
     volumes:
-      - ai-5-data:/mnt/ssd/ais/ai-5
+      - ai5-data:/mnt/ssd/ais/ai5
       - ./installRequirements.sh:/installRequirements.sh:ro
     networks:
       - ai-network
     entrypoint: ["bash","/installRequirements.sh"]
 
 volumes:
-  ai-1-data:
-  ai-2-data:
-  ai-3-data:
-  ai-4-data:
-  ai-5-data:
+  ai1-data:
+  ai2-data:
+  ai3-data:
+  ai4-data:
+  ai5-data:
 
 networks:
   ai-network:
