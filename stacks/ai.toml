@@ -27,8 +27,8 @@ name = "pre_deploy"
 commands = [
     # Create config dir for AI containers
     "mkdir -p /mnt/ssd/ais",
-    "chown -R 1000:1000 /mnt/ssd/ais",
-    "chmod -R 750 /mnt/ssd/ais",
+    #"chown -R 1000:1000 /mnt/ssd/ais",
+    "chmod -R 777 /mnt/ssd/ais",
 
     #Create individual dirs for each container
     "mkdir -p /mnt/ssd/ais/ai-1",

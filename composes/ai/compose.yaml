@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   ai-1:
     image: archlinux:latest
@@ -9,7 +7,7 @@ services:
       - ./installRequirements.sh:/installRequirements.sh:ro
     networks:
       - ai-network
-    entrypoint: ["/installRequirements.sh"]
+    entrypoint: ["bash","/installRequirements.sh"]
 
   ai-2:
     image: archlinux:latest
@@ -19,7 +17,7 @@ services:
       - ./installRequirements.sh:/installRequirements.sh:ro
     networks:
       - ai-network
-    entrypoint: ["/installRequirements.sh"]
+    entrypoint: ["bash","/installRequirements.sh"]
 
   ai-3:
     image: archlinux:latest
@@ -29,7 +27,7 @@ services:
       - ./installRequirements.sh:/installRequirements.sh:ro
     networks:
       - ai-network
-    entrypoint: ["/installRequirements.sh"]
+    entrypoint: ["bash","/installRequirements.sh"]
 
   ai-4:
     image: archlinux:latest
@@ -39,7 +37,7 @@ services:
       - ./installRequirements.sh:/installRequirements.sh:ro
     networks:
       - ai-network
-    entrypoint: ["/installRequirements.sh"]
+    entrypoint: ["bash","/installRequirements.sh"]
 
   ai-5:
     image: archlinux:latest
@@ -49,7 +47,7 @@ services:
       - ./installRequirements.sh:/installRequirements.sh:ro
     networks:
       - ai-network
-    entrypoint: ["/installRequirements.sh"]
+    entrypoint: ["bash","/installRequirements.sh"]
 
 volumes:
   ai-1-data:
