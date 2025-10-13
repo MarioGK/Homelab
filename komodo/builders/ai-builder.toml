@@ -1,8 +1,8 @@
-[[build]]
-name = "ai-arch"
-[build.config]
-builder = "MS01"
-image_name = "ai"
-linked_repo = "MarioGK/Homelab"
-webhook_enabled = false
-build_path = "images/ai/"
+#[[build]]
+#name = "ai-arch"
+#[build.config]
+#builder = "MS01"
+#image_name = "ai"
+#linked_repo = "MarioGK/Homelab"
+#webhook_enabled = false
+#build_path = "images/ai/"
