@@ -1,0 +1,29 @@
+services:
+  frigate:
+    image: ghcr.io/blakeblackshear/frigate:stable
+    container_name: frigate
+    restart: unless-stopped
+    shm_size: 64mb
+    ports:
+      - "5000:5000"
+      - "8554:8554"
+      - "8555:8555/tcp"
+      - "8555:8555/udp"
+    environment:
+      - TZ=${TZ}
+      - LIBVA_DRIVER_NAME=iHD
+    volumes:
+      # Configuration
+      - /mnt/ssd/configs/frigate/config:/config
+      # Recordings storage (media drive)
+      - /mnt/media/frigate/recordings:/media/frigate/recordings
+      - /mnt/media/frigate/clips:/media/frigate/clips
+      - /mnt/media/frigate/snapshots:/media/frigate/snapshots
+      # Shared memory for performance
+      - /dev/shm:/dev/shm
+    devices:
+      # Intel GPU acceleration
+      - /dev/dri:/dev/dri
+    cap_add:
+      - SYS_NICE
+    privileged: true

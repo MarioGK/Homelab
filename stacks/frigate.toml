@@ -1,0 +1,46 @@
+[[stack]]
+name = "frigate"
+description = "Frigate NVR - Video surveillance system with Intel CPU acceleration"
+[stack.config]
+server = "MS01"
+linked_repo = "MarioGK/Homelab"
+
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+run_directory = "composes/frigate/"
+config_files = [
+  { path = "config.yml", services = ["frigate"], requires = "Restart" }
+]
+
+environment = """
+## Required
+
+## Timezone (must be America/Sao_Paulo)
+TZ = "America/Sao_Paulo"
+
+## Optional: set frigate specific env vars here
+#FRIGATE_RTSP_PASSWORD=
+"""
+
+[[variable]]
+name = "TZ"
+value = "America/Sao_Paulo"
+is_secret = false
+
+[[provision]]
+name = "pre_deploy"
+[provision.config]
+commands = [
+  # Create config dir for frigate
+  "mkdir -p /mnt/ssd/configs/frigate/config",
+  # Create media dir for recordings
+  "mkdir -p /mnt/media/frigate/recordings",
+  "mkdir -p /mnt/media/frigate/clips",
+  "mkdir -p /mnt/media/frigate/snapshots",
+  # Ensure ownership and permissions
+  "chown -R 1000:1000 /mnt/ssd/configs/frigate",
+  "chmod -R 750 /mnt/ssd/configs/frigate",
+  "chown -R 1000:1000 /mnt/media/frigate",
+  "chmod -R 755 /mnt/media/frigate",
+]
