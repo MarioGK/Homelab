@@ -233,11 +233,11 @@ services:
     container_name: suggestarr
     restart: unless-stopped
     ports:
-      - "${SUGGESTARR_PORT:-5000}:${SUGGESTARR_PORT:-5000}"
+      - "${SUGGESTARR_PORT:-5001}:${SUGGESTARR_PORT:-5001}"
     volumes:
       - /mnt/ssd/configs/suggestarr/config:/app/config/config_files
     environment:
       # Optional: Only needed if something goes wrong and you need to inspect deeper
       - LOG_LEVEL=${LOG_LEVEL:-info}
-      # Optional: Customize the port (defaults to 5000 if not set)
-      - SUGGESTARR_PORT=${SUGGESTARR_PORT:-5000}
+      # Optional: Customize the port (defaults to 5001 if not set)
+      - SUGGESTARR_PORT=${SUGGESTARR_PORT:-5001}
