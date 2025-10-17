@@ -1,35 +1,3 @@
-# Global configuration
-logger:
-  level: info
-
-# RTMP will not be available
-rtmp:
-  enabled: true
-
-# Tell Frigate to generate clips on all events (optional)
-record:
-  enabled: true
-  retain:
-    default: 7
-    objects: 30
-  
-# Snapshots configuration
-snapshots:
-  enabled: true
-  clean_copy: true
-  height: 175
-  retain:
-    default: 7
-    objects: 30
-
-# Use Intel GPU for decoding/encoding
-detect:
-  enabled: true
-  height: 360
-  width: 640
-  fps: 5
-
-# Camera configuration
 cameras:
   test_camera:
     enabled: True
