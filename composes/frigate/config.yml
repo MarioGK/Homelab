@@ -1,6 +1,3 @@
-# Frigate configuration file
-# For more details, see: https://docs.frigate.video/configuration/index
-
 # Global configuration
 logger:
   level: info
