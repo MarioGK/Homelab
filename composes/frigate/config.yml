@@ -13,9 +13,24 @@ face_recognition:
 lpr:
   enabled: True
   model_size: large
+  device: GPU
+
+detectors:
+  ov_0:
+    type: openvino
+    device: GPU
+  ov_1:
+    type: openvino
+    device: GPU
+  ov_2:
+    type: openvino
+    device: GPU
+  ov_3:
+    type: openvino
+    device: GPU
 
 cameras:
-  test_camera:
+  entrada:
     enabled: True
     ffmpeg:
       hwaccel_args: preset-vaapi
@@ -25,3 +40,5 @@ cameras:
             - detect
             - record
             - audio
+    audio:
+      enabled: True
