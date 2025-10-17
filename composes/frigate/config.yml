@@ -7,7 +7,7 @@ logger:
 
 # RTMP will not be available
 rtmp:
-  enabled: false
+  enabled: true
 
 # Tell Frigate to generate clips on all events (optional)
 record:
@@ -32,24 +32,15 @@ detect:
   width: 640
   fps: 5
 
-# Coral / EdgeTPU is optional for object detection
-# If you don't have one, object detection will be done on CPU
-# coral:
-#   enabled: false
-
 # Camera configuration
 cameras:
-  # Example camera configuration
-  # camera_name:
-  #   ffprobe:
-  #     timeout: 5
-  #   rtsp:
-  #     user: admin
-  #     password: password
-  #   detect:
-  #     enabled: true
-  #     width: 640
-  #     height: 360
-  #     fps: 5
-  #   record:
-  #     enabled: true
+  test_camera:
+    enabled: True
+    ffmpeg:
+      hwaccel_args: preset-vaapi
+      inputs:
+        - path: rtsp://admin:z159357258@192.168.1.252:554/cam/realmonitor?channel=1&subtype=1
+          roles:
+            - detect
+            - record
+            - audio
