@@ -30,7 +30,7 @@ detectors:
     device: GPU
 
 cameras:
-  entrada:
+  camera_1:
     enabled: True
     ffmpeg:
       hwaccel_args: preset-vaapi
@@ -38,7 +38,7 @@ cameras:
         - path: rtsp://admin:z159357258@192.168.1.252:554/cam/realmonitor?channel=1&subtype=1
           roles:
             - detect
-            - record
+            #- record
             - audio
     audio:
       enabled: True
@@ -48,3 +48,75 @@ cameras:
         - scream
         - speech
         - yell
+    camera_2:
+      enabled: True
+      ffmpeg:
+        hwaccel_args: preset-vaapi
+        inputs:
+          - path: rtsp://admin:z159357258@192.168.1.252:554/cam/realmonitor?channel=1&subtype=1
+            roles:
+              - detect
+              #- record
+              - audio
+      audio:
+        enabled: True
+        listen:
+          - bark
+          - fire_alarm
+          - scream
+          - speech
+          - yell
+    camera_3:
+      enabled: True
+      ffmpeg:
+        hwaccel_args: preset-vaapi
+        inputs:
+          - path: rtsp://admin:z159357258@192.168.1.252:554/cam/realmonitor?channel=1&subtype=1
+            roles:
+              - detect
+              #- record
+              - audio
+      audio:
+        enabled: True
+        listen:
+          - bark
+          - fire_alarm
+          - scream
+          - speech
+          - yell
+    camera_4:
+      enabled: True
+      ffmpeg:
+        hwaccel_args: preset-vaapi
+        inputs:
+          - path: rtsp://admin:z159357258@192.168.1.252:554/cam/realmonitor?channel=1&subtype=1
+            roles:
+              - detect
+              #- record
+              - audio
+      audio:
+        enabled: True
+        listen:
+          - bark
+          - fire_alarm
+          - scream
+          - speech
+          - yell
+    camera_5:
+      enabled: True
+      ffmpeg:
+        hwaccel_args: preset-vaapi
+        inputs:
+          - path: rtsp://admin:z159357258@192.168.1.252:554/cam/realmonitor?channel=1&subtype=1
+            roles:
+              - detect
+              #- record
+              - audio
+      audio:
+        enabled: True
+        listen:
+          - bark
+          - fire_alarm
+          - scream
+          - speech
+          - yell
