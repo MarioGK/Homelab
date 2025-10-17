@@ -14,12 +14,12 @@ services:
       - TZ=${TZ}
       - LIBVA_DRIVER_NAME=iHD
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       # Configuration file
+      - /mnt/ssd/configs/frigate/config:/config
       - ./config.yml:/config/config.yml
       # Recordings storage (media drive)
-      - /mnt/media/frigate/recordings:/media/frigate/recordings
-      - /mnt/media/frigate/clips:/media/frigate/clips
-      - /mnt/media/frigate/snapshots:/media/frigate/snapshots
+      - /mnt/media/frigate/media:/media/frigate
       # Shared memory for performance
       - /dev/shm:/dev/shm
       # Cache
