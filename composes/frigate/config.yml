@@ -42,3 +42,9 @@ cameras:
             - audio
     audio:
       enabled: True
+      listen:
+        - bark
+        - fire_alarm
+        - scream
+        - speech
+        - yell
