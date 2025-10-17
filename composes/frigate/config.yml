@@ -20,6 +20,10 @@ record:
       days: 30
       mode: motion
 
+birdseye:
+  enabled: True
+  inactivity_threshold: 15
+
 mqtt:
   enabled: False
 
