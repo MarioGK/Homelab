@@ -1,3 +1,6 @@
+mqtt:
+  enabled: False
+  
 cameras:
   test_camera:
     enabled: True
