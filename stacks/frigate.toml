@@ -33,7 +33,7 @@ name = "pre_deploy"
 [provision.config]
 commands = [
   # Create config dir for frigate
-  "mkdir -p /mnt/ssd/configs/frigate/config",
+  "mkdir -p /mnt/ssd/configs/frigate",
   # Create media dir for recordings
   "mkdir -p /mnt/media/frigate/recordings",
   "mkdir -p /mnt/media/frigate/clips",
