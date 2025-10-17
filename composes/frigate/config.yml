@@ -1,3 +1,25 @@
+review:
+  alerts:
+    labels:
+      - car
+      - cat
+      - dog
+      - person
+      - speech
+
+record:
+  enabled: True
+  retain:
+    days: 1
+  alerts:
+    retain:
+      days: 30
+      mode: motion
+  detections:
+    retain:
+      days: 30
+      mode: motion
+
 mqtt:
   enabled: False
 
@@ -47,6 +69,10 @@ cameras:
           roles:
             - detect
             #- record
+            - audio
+        - path: rtsp://admin:z159357258@192.168.1.252:554/cam/realmonitor?channel=1&subtype=0
+          roles:
+            - record
             - audio
     audio:
       enabled: True
