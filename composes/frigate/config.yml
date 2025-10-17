@@ -7,6 +7,14 @@ review:
       - person
       - speech
 
+objects:
+  track:
+    - car
+    - cat
+    - dog
+    - person
+    - speech
+
 record:
   enabled: True
   retain:
