@@ -1,6 +1,19 @@
 mqtt:
   enabled: False
-  
+
+semantic_search:
+  enabled: True
+  reindex: False
+  model_size: large
+
+face_recognition:
+  enabled: True
+  model_size: large
+
+lpr:
+  enabled: True
+  model_size: large
+
 cameras:
   test_camera:
     enabled: True
