@@ -1,0 +1,41 @@
+[[stack]]
+name = "headscale-ui"
+description = "Headscale with Web UI - Open source Tailscale control server with SvelteKit web frontend"
+[stack.config]
+server = "MS01"
+linked_repo = "MarioGK/Homelab"
+
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+run_directory = "composes/headscale-ui/"
+config_files = [
+  { path = "config.yaml", services = ["headscale"], requires = "Restart" }
+]
+
+environment = """
+## Required
+
+## Timezone (must be America/Sao_Paulo)
+TZ = "America/Sao_Paulo"
+
+## Optional: set headscale specific env vars here
+#HEADSCALE_OIDC_CLIENT_ID=
+#HEADSCALE_OIDC_CLIENT_SECRET=
+"""
+
+[[variable]]
+name = "TZ"
+value = "America/Sao_Paulo"
+is_secret = false
+
+[[provision]]
+name = "pre_deploy"
+[provision.config]
+commands = [
+    # Create config dir for headscale
+    "mkdir -p /mnt/ssd/configs/headscale-ui",
+    # Ensure ownership and permissions
+    "chown -R 1000:1000 /mnt/ssd/configs/headscale-ui",
+    "chmod -R 750 /mnt/ssd/configs/headscale-ui",
+]
