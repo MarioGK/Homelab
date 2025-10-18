@@ -25,11 +25,12 @@ services:
       - "3478:3478/udp"
     volumes:
       - /mnt/ssd/configs/headscale:/var/lib/headscale
-      - ./headscale-config.yaml:/etc/headscale/config.yaml:ro
+      - ./config.yaml:/etc/headscale/config.yaml:ro
     environment:
       - TZ=${TZ}
     networks:
       - headscale-network
+    command: serve
 
 networks:
   headscale-network:
