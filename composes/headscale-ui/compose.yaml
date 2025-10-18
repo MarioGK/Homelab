@@ -21,7 +21,8 @@ services:
     restart: unless-stopped
     ports:
       - "6080:8080"
-      - "50443:50443"
+      - "6090:9090"
+      - "6082:50443"
       - "3478:3478/udp"
     volumes:
       - /mnt/ssd/configs/headscale:/var/lib/headscale
