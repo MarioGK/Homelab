@@ -1,0 +1,38 @@
+[[stack]]
+name = "caddy"
+[stack.config]
+server = "MS01"
+linked_repo = "MarioGK/Homelab"
+
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+run_directory = "composes/caddy/"
+config_files = [
+  { path = "Caddyfile", services = ["caddy"], requires = "Restart" }
+]
+
+environment = """
+## Required
+
+## Timezone (must be America/Sao_Paulo)
+TZ = "America/Sao_Paulo"
+
+## Optional: Caddy-specific environment variables
+# CADDY_ADMIN=localhost:2019
+"""
+
+[[variable]]
+name = "TZ"
+value = "America/Sao_Paulo"
+is_secret = false
+
+[[provision]]
+name = "pre_deploy"
+[provision.config]
+commands = [
+    "mkdir -p /mnt/ssd/configs/caddy",
+    "mkdir -p /mnt/ssd/configs/caddy/config",
+    "chown -R 1000:1000 /mnt/ssd/configs/caddy",
+    "chmod -R 750 /mnt/ssd/configs/caddy",
+]

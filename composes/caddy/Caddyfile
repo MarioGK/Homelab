@@ -1,0 +1,79 @@
+# Caddy configuration for local homelab services and public routing
+# Supports both .ms01 (local) and domain.mariogk.com (public) routing
+
+# Global settings
+{
+  admin localhost:2019
+  auto_https off
+}
+
+# Local services - accessible via *.ms01
+jellyfin.ms01 {
+  reverse_proxy 192.168.5.10:8096
+}
+
+lazylibrarian.ms01 {
+  reverse_proxy 192.168.5.10:5299
+}
+
+sonarr.ms01 {
+  reverse_proxy 192.168.5.10:8989
+}
+
+radarr.ms01 {
+  reverse_proxy 192.168.5.10:7878
+}
+
+lidarr.ms01 {
+  reverse_proxy 192.168.5.10:8686
+}
+
+bazarr.ms01 {
+  reverse_proxy 192.168.5.10:6767
+}
+
+qbittorrent.ms01 {
+  reverse_proxy 192.168.5.10:8080
+}
+
+prowlarr.ms01 {
+  reverse_proxy 192.168.5.10:9696
+}
+
+sabnzbd.ms01 {
+  reverse_proxy 192.168.5.10:8082
+}
+
+flaresolverr.ms01 {
+  reverse_proxy 192.168.5.10:8191
+}
+
+tdarr.ms01 {
+  reverse_proxy 192.168.5.10:8265
+}
+
+jellyseerr.ms01 {
+  reverse_proxy 192.168.5.10:5055
+}
+
+calibre-web.ms01 {
+  reverse_proxy 192.168.5.10:8083
+}
+
+navidrome.ms01 {
+  reverse_proxy 192.168.5.10:4533
+}
+
+# Public services - accessible via domain.mariogk.com
+# These can be exposed to the internet if configured in your router
+media.mariogk.com {
+  reverse_proxy 192.168.5.10:8096
+}
+
+home.mariogk.com {
+  reverse_proxy 192.168.5.10:8123
+}
+
+dns.homelab {
+  reverse_proxy 192.168.5.10:4000
+}

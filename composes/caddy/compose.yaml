@@ -1,0 +1,26 @@
+services:
+  caddy:
+    image: caddy:latest
+    container_name: caddy_gateway
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "2019:2019"  # Caddy Admin API
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./config:/etc/caddy/config
+      - caddy_data:/data
+      - caddy_config:/config
+    environment:
+      - TZ=${TZ}
+    networks:
+      - caddy_net
+
+networks:
+  caddy_net:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:
