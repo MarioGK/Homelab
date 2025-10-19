@@ -63,22 +63,3 @@ calibre-web.ms01 {
 navidrome.ms01 {
   reverse_proxy 192.168.5.10:4533
 }
-
-# Public services - accessible via domain.mariogk.com
-# These can be exposed to the internet if configured in your router
-media.mariogk.com {
-  reverse_proxy 192.168.5.10:8096
-}
-
-home.mariogk.com {
-  reverse_proxy 192.168.5.10:8123
-}
-
-dns.homelab {
-  reverse_proxy 192.168.5.10:4000
-}
-
-https://hs.mariogk.com {
-	reverse_proxy /web* http://localhost:6081
-	reverse_proxy * http://localhost:6080
-}
