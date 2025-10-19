@@ -3,14 +3,7 @@ name = "Sync"
 config.webhook_secret = "KomodoHomelab"
 
 [[procedure.config.stage]]
-name = "Clone Repo"
-enabled = true
-executions = [
-  { execution.type = "CloneRepo", execution.params.repo = "MarioGK/Homelab", enabled = true }
-]
-
-[[procedure.config.stage]]
-name = "Pull Again just to make sure"
+name = "Pul repo"
 enabled = true
 executions = [
   { execution.type = "PullRepo", execution.params.repo = "MarioGK/Homelab", enabled = true }
