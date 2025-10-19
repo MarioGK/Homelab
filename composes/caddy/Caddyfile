@@ -77,3 +77,8 @@ home.mariogk.com {
 dns.homelab {
   reverse_proxy 192.168.5.10:4000
 }
+
+https://hs.mariogk.com {
+	reverse_proxy /web* http://localhost:6081
+	reverse_proxy * http://localhost:6080
+}
