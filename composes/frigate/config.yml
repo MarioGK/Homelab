@@ -1,36 +1,63 @@
+# yaml-language-server: $schema=http://192.168.5.10:5000/api/config/schema.json
+
+auth:
+  enabled: True
+  reset_admin_password: False
+  cookie_secure: False
+
+#notifications:
+#  enabled: True
+#  email: mariogk01@gmail.com
+#  cooldown: 0
+
 review:
   alerts:
     labels:
+      - person
+      - face
       - car
+      - motorcycle
+      - license_plate
       - cat
       - dog
-      - person
-      - speech
 
 objects:
   track:
+    - person
+    - face
     - car
+    - motorcycle
+    - license_plate
     - cat
     - dog
-    - person
-    - speech
 
 record:
   enabled: True
   retain:
-    days: 1
+    days: 7
+    mode: motion
   alerts:
     retain:
-      days: 30
+      days: 90
       mode: motion
   detections:
     retain:
-      days: 30
+      days: 90
       mode: motion
+
+snapshots:
+  enabled: True
+  retain:
+    default: 30
 
 birdseye:
   enabled: True
-  inactivity_threshold: 15
+  inactivity_threshold: 30
+  quality: 8
+  mode: objects
+
+detect:
+  enabled: true
 
 mqtt:
   enabled: False
@@ -42,10 +69,13 @@ semantic_search:
 
 face_recognition:
   enabled: True
+  unknown_score: 0.8
+  save_attempts: 100
   model_size: large
 
 lpr:
   enabled: True
+  enhancement: 7
   model_size: large
   device: GPU
 
@@ -64,103 +94,71 @@ detectors:
     device: GPU
 
 model:
-  width: 300
-  height: 300
-  input_tensor: nhwc
-  input_pixel_format: bgr
-  path: /openvino-model/ssdlite_mobilenet_v2.xml
-  labelmap_path: /openvino-model/coco_91cl_bkgr.txt
+  width: 320
+  height: 320
+  path: plus://a688a8f1733544be72cf4a13dce6d582
+
+ffmpeg:
+  hwaccel_args: preset-vaapi
+
+audio:
+  enabled: True
+  max_not_heard: 30
+  listen:
+    - bark
+    - scream
+    - yell
 
 cameras:
   camera_1:
     enabled: True
     ffmpeg:
-      hwaccel_args: preset-vaapi
       inputs:
-        - path: rtsp://admin:z159357258@192.168.1.252:554/cam/realmonitor?channel=1&subtype=1
+        - path: rtsp://admin:@%23shinoda100@192.168.1.16:554/cam/realmonitor?channel=1\&subtype=1
           roles:
             - detect
-        - path: rtsp://admin:z159357258@192.168.1.252:554/cam/realmonitor?channel=1&subtype=0
+        - path: rtsp://admin:@%23shinoda100@192.168.1.16:554/cam/realmonitor?channel=1\&subtype=0
           roles:
             - record
-            - audio
-    audio:
-      enabled: True
-      listen:
-        - bark
-        - fire_alarm
-        - scream
-        - speech
-        - yell
   camera_2:
     enabled: True
     ffmpeg:
-      hwaccel_args: preset-vaapi
       inputs:
-        - path: rtsp://admin:z159357258@192.168.1.252:554/cam/realmonitor?channel=1&subtype=1
+        - path: rtsp://admin:@%23shinoda100@192.168.1.16:554/cam/realmonitor?channel=2\&subtype=1
           roles:
             - detect
-            #- record
-            - audio
-    audio:
-      enabled: True
-      listen:
-        - bark
-        - fire_alarm
-        - scream
-        - speech
-        - yell
+        - path: rtsp://admin:@%23shinoda100@192.168.1.16:554/cam/realmonitor?channel=2\&subtype=0
+          roles:
+            - record
   camera_3:
     enabled: True
     ffmpeg:
-      hwaccel_args: preset-vaapi
       inputs:
-        - path: rtsp://admin:z159357258@192.168.1.252:554/cam/realmonitor?channel=1&subtype=1
+        - path: rtsp://admin:@%23shinoda100@192.168.1.16:554/cam/realmonitor?channel=3\&subtype=1
           roles:
             - detect
-            #- record
-            - audio
-    audio:
-      enabled: True
-      listen:
-        - bark
-        - fire_alarm
-        - scream
-        - speech
-        - yell
+        - path: rtsp://admin:@%23shinoda100@192.168.1.16:554/cam/realmonitor?channel=3\&subtype=0
+          roles:
+            - record
   camera_4:
     enabled: True
     ffmpeg:
       hwaccel_args: preset-vaapi
       inputs:
-        - path: rtsp://admin:z159357258@192.168.1.252:554/cam/realmonitor?channel=1&subtype=1
+        - path: rtsp://admin:@%23shinoda100@192.168.1.16:554/cam/realmonitor?channel=4\&subtype=1
           roles:
             - detect
-            #- record
-            - audio
-    audio:
-      enabled: True
-      listen:
-        - bark
-        - fire_alarm
-        - scream
-        - speech
-        - yell
+        - path: rtsp://admin:@%23shinoda100@192.168.1.16:554/cam/realmonitor?channel=4\&subtype=0
+          roles:
+            - record
   camera_5:
     enabled: True
     ffmpeg:
       hwaccel_args: preset-vaapi
       inputs:
-        - path: rtsp://admin:z159357258@192.168.1.252:554/cam/realmonitor?channel=1&subtype=1
+        - path: rtsp://admin:@%23shinoda100@192.168.1.16:554/cam/realmonitor?channel=5\&subtype=1
           roles:
             - detect
-            #- record
-            - audio
-    audio:
-      enabled: True
-      listen:
-        - bark
-        - fire_alarm
-        - scream
-        - speech
-        - yell
+        - path: rtsp://admin:@%23shinoda100@192.168.1.16:554/cam/realmonitor?channel=5\&subtype=0
+          roles:
+            - record

@@ -4,22 +4,25 @@ services:
     privileged: true 
     container_name: frigate
     restart: unless-stopped
+    stop_grace_period: 30s
     shm_size: 512mb
     ports:
       - "5000:5000"
+      - "8971:8971"
       - "8554:8554"
       - "8555:8555/tcp"
       - "8555:8555/udp"
     environment:
       - TZ=${TZ}
       - LIBVA_DRIVER_NAME=iHD
+      - PLUS_API_KEY=45aa9383-ecc3-453b-8335-481577f549bd:1a79c0215edb8f72d2f97946988f5e7ee48bc93a
     volumes:
       - /etc/localtime:/etc/localtime:ro
       # Configuration file
       - /mnt/ssd/configs/frigate/config:/config
       - ./config.yml:/config/config.yml
       # Recordings storage (media drive)
-      - /mnt/media/frigate/media:/media/frigate
+      - /mnt/ssd/frigate/media:/media/frigate
       # Shared memory for performance
       - /dev/shm:/dev/shm
       # Cache
