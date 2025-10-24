@@ -108,6 +108,7 @@ cameras:
           roles:
             - record
             - detect
+      input_args: -avoid_negative_ts make_zero -fflags nobuffer -flags low_delay -strict experimental -analyzeduration 1M -probesize 1M -rtsp_transport tcp
   Casa_Garagem:
     enabled: True
     ffmpeg:
