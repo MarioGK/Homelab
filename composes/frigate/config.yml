@@ -101,14 +101,6 @@ model:
 ffmpeg:
   hwaccel_args: preset-vaapi
 
-audio:
-  enabled: True
-  max_not_heard: 30
-  listen:
-    - bark
-    - scream
-    - yell
-
 cameras:
   camera_1:
     enabled: True
