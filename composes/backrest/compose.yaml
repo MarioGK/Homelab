@@ -28,6 +28,8 @@ services:
       # - BACKREST_PORT=0.0.0.0:9898
     networks:
       - backrest_net
+    cap_add:
+      - SYS_NICE
 
 networks:
   backrest_net:
