@@ -14,8 +14,8 @@ services:
       - /mnt/ssd/configs/backrest/config:/config
       - /mnt/ssd/configs/backrest/cache:/cache
       - /mnt/ssd/configs/backrest/tmp:/tmp
-      # rclone configuration for Hetzner Storage Box and other backends
-      - /mnt/ssd/configs/backrest/rclone:/root/.config/rclone
+      # SSH keys for SFTP (new mount)
+      - /home/mariogk/.ssh:/root/.ssh:ro
       # Data to backup: all configs in /mnt/ssd/configs
       - /mnt/ssd/configs:/userdata:ro
     environment:
