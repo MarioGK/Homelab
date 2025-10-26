@@ -17,7 +17,7 @@ services:
       # SSH keys for SFTP (use a root-owned copy so ssh inside the container accepts the ownership/permission requirements)
       - /mnt/ssd/configs/backrest/ssh:/root/.ssh
       # Data to backup: all configs in /mnt/ssd/configs
-      - /mnt/ssd/configs:/userdata:ro
+      - /mnt/ssd:/mnt/ssd:ro
     environment:
       - TZ=${TZ}
       - BACKREST_DATA=/data
