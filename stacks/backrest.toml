@@ -1,0 +1,49 @@
+[[stack]]
+name = "backrest"
+description = "Web-accessible backup solution built on restic for backing up /mnt/ssd/configs to Hetzner Storage Box"
+[stack.config]
+server = "MS01"
+linked_repo = "MarioGK/Homelab"
+
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+run_directory = "composes/backrest/"
+
+environment = """
+## Required
+
+## Timezone (must be America/Sao_Paulo)
+TZ = "America/Sao_Paulo"
+
+## Backrest Configuration
+BACKREST_DATA = "/data"
+BACKREST_CONFIG = "/config/config.json"
+XDG_CACHE_HOME = "/cache"
+TMPDIR = "/tmp"
+
+## Optional: Configure remote access to Backrest UI
+## Set to 0.0.0.0:9898 to allow access from other machines
+## Default is 127.0.0.1:9898 (localhost only)
+# BACKREST_PORT = "0.0.0.0:9898"
+"""
+
+[[variable]]
+name = "TZ"
+value = "America/Sao_Paulo"
+is_secret = false
+
+[[provision]]
+name = "pre_deploy"
+[provision.config]
+commands = [
+	# Create base config directory for backrest
+	"mkdir -p /mnt/ssd/configs/backrest",
+	"mkdir -p /mnt/ssd/configs/backrest/data",
+	"mkdir -p /mnt/ssd/configs/backrest/config",
+	"mkdir -p /mnt/ssd/configs/backrest/cache",
+	"mkdir -p /mnt/ssd/configs/backrest/tmp",
+	"mkdir -p /mnt/ssd/configs/backrest/rclone",
+	# Set proper permissions
+	"chmod -R 755 /mnt/ssd/configs/backrest",
+]

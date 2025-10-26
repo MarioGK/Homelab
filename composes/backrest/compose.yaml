@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  backrest:
+    image: garethgeorge/backrest:latest
+    container_name: backrest
+    hostname: backrest
+    restart: unless-stopped
+    ports:
+      - "9898:9898"
+    volumes:
+      # Backrest internal data and configuration
+      - /mnt/ssd/configs/backrest/data:/data
+      - /mnt/ssd/configs/backrest/config:/config
+      - /mnt/ssd/configs/backrest/cache:/cache
+      - /mnt/ssd/configs/backrest/tmp:/tmp
+      # rclone configuration for Hetzner Storage Box and other backends
+      - /mnt/ssd/configs/backrest/rclone:/root/.config/rclone
+      # Data to backup: all configs in /mnt/ssd/configs
+      - /mnt/ssd/configs:/userdata:ro
+    environment:
+      - TZ=${TZ}
+      - BACKREST_DATA=/data
+      - BACKREST_CONFIG=/config/config.json
+      - XDG_CACHE_HOME=/cache
+      - TMPDIR=/tmp
+      # Uncomment to allow remote access to the UI
+      # - BACKREST_PORT=0.0.0.0:9898
+    networks:
+      - backrest_net
+
+networks:
+  backrest_net:
+    driver: bridge

@@ -1,0 +1,33 @@
+# Rclone Configuration Template for Backrest
+# 
+# This file should be placed at: /mnt/ssd/configs/backrest/rclone/rclone.conf
+# 
+# For Hetzner Storage Box setup:
+# 1. Configure your Hetzner Storage Box remote in Backrest's UI
+# 2. Use the rclone remote configuration below as a template
+# 3. Replace YOUR_USERNAME, YOUR_PASSWORD with your actual credentials
+# 
+# You can configure multiple remotes for different storage backends
+#
+# Example for Hetzner Storage Box (SFTP):
+# [hetzner-backup]
+# type = sftp
+# host = your-storage-box.your-domain.com
+# user = your-username
+# port = 22
+# pass = <encrypted-password>  # Will be handled by Backrest
+# shell_type = unix
+# md5sum_command = md5sum
+# sha1_command = sha1sum
+#
+# Example for rclone-compatible Hetzner (S3):
+# [hetzner-s3]
+# type = s3
+# provider = Other
+# endpoint = your-endpoint.hetzner.com
+# access_key_id = YOUR_ACCESS_KEY
+# secret_access_key = YOUR_SECRET_KEY
+# 
+# Documentation:
+# - Rclone Hetzner: https://rclone.org/sftp/#hetzner-storage-box
+# - Backrest Storage: https://github.com/garethgeorge/backrest/blob/main/docs/content/1.introduction/1.getting-started.md
