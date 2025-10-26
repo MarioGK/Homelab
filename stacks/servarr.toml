@@ -51,9 +51,5 @@ commands = [
 
 	# Set ownership and permissions
 	"chown -R 1000:1000 /mnt/ssd/configs",
-	"chmod -R 750 /mnt/ssd/configs",
-	"chown -R 1000:1000 /mnt/ssd/configs/navidrome",
-	"chmod -R 750 /mnt/ssd/configs/navidrome",
-
-	"sudo find /mnt -exec chmod 777 {} +"
+	"chmod -R 750 /mnt/ssd/configs"
 ]

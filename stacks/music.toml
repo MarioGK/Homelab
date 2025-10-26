@@ -33,7 +33,5 @@ commands = [
 	# Create base configs dir
 	"mkdir -p /mnt/ssd/configs/yMusicLite",
 	"mkdir -p /mnt/ssd/configs/navidrome",
-	"mkdir -p /mnt/ssd/configs/navidrome/cache",
-	
-	"sudo find /mnt -exec chmod 777 {} +"
+	"mkdir -p /mnt/ssd/configs/navidrome/cache"
 ]
