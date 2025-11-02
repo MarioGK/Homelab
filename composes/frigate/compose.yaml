@@ -7,11 +7,11 @@ services:
     stop_grace_period: 30s
     shm_size: 512mb
     ports:
-      - "5000:5000"
-      - "8971:8971"
-      - "8554:8554"
-      - "8555:8555/tcp"
-      - "8555:8555/udp"
+      - "6020:5000"
+      - "6021:8971"
+      - "6022:8554"
+      - "6023:8555/tcp"
+      - "6023:8555/udp"
     environment:
       - TZ=${TZ}
       - LIBVA_DRIVER_NAME=iHD
