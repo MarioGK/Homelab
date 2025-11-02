@@ -1,14 +1,14 @@
-# yaml-language-server: $schema=http://192.168.5.10:5000/api/config/schema.json
+# yaml-language-server: $schema=http://192.168.5.10:6020/api/config/schema.json
 
 auth:
   enabled: True
   reset_admin_password: False
   cookie_secure: False
 
-#notifications:
-#  enabled: True
-#  email: mariogk01@gmail.com
-#  cooldown: 0
+notifications:
+  enabled: True
+  email: mariogk01@gmail.com
+  cooldown: 0
 
 review:
   alerts:
