@@ -22,7 +22,7 @@ services:
       - ./config.yml:/config/config.yml
       - /mnt/ssd/configs/frigate/config:/config
       # Recordings storage (media drive)
-      - /mnt/ssd/frigate/media:/media/frigate
+      - /mnt/media/frigate/media:/media/frigate
       # Shared memory for performance
       - /dev/shm:/dev/shm
       # Cache
