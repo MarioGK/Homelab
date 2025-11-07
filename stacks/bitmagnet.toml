@@ -25,9 +25,6 @@ name = "pre_deploy"
 [provision.config]
 commands = [
   # Create config and data dirs for bitmagnet
-  "mkdir -p /mnt/ssd/configs/bitmagnet/config",
-  "mkdir -p /mnt/ssd/configs/bitmagnet/data/postgres",
-  # Ensure ownership and permissions
-  "chown -R 1000:1000 /mnt/ssd/configs/bitmagnet",
-  "chmod -R 750 /mnt/ssd/configs/bitmagnet",
+  "mkdir /mnt/ssd/configs/bitmagnet/config",
+  "mkdir /mnt/ssd/configs/bitmagnet/data/postgres",
 ]

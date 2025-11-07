@@ -33,14 +33,8 @@ name = "pre_deploy"
 [provision.config]
 commands = [
   # Create config dir for frigate
-  "mkdir -p /mnt/ssd/configs/frigate",
-  # Create media dir for recordings
-  "mkdir -p /mnt/media/frigate/recordings",
-  "mkdir -p /mnt/media/frigate/clips",
-  "mkdir -p /mnt/media/frigate/snapshots",
-  # Ensure ownership and permissions
-  "chown -R 1000:1000 /mnt/ssd/configs/frigate",
-  "chmod -R 750 /mnt/ssd/configs/frigate",
-  "chown -R 1000:1000 /mnt/media/frigate",
-  "chmod -R 755 /mnt/media/frigate",
+  "mkdir /mnt/ssd/configs/frigate",
+  "mkdir /mnt/ssd/media/frigate/recordings",
+  "mkdir /mnt/ssd/media/frigate/clips",
+  "mkdir /mnt/ssd/media/frigate/snapshots",
 ]

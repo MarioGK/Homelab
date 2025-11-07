@@ -29,9 +29,6 @@ name = "pre_deploy"
 [provision.config]
 commands = [
     # Ensure blocky config dir exists
-    "mkdir -p /mnt/ssd/configs/blocky/config",
-    "mkdir -p /mnt/ssd/configs/blocky/hosts",
-    # ensure permissions
-    "chown -R 1000:1000 /mnt/ssd/configs/blocky",
-    "chmod -R 750 /mnt/ssd/configs/blocky",
+    "mkdir /mnt/ssd/configs/blocky/config",
+    "mkdir /mnt/ssd/configs/blocky/hosts",
 ]

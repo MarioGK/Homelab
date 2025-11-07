@@ -9,9 +9,9 @@ services:
       - DOCKER_MODS=linuxserver/mods:universal-calibre|linuxserver/mods:lazylibrarian-ffmpeg
     volumes:
       - /mnt/ssd/configs/lazylibrarian/data:/config
-      - /mnt/media/downloads/:/downloads
-      - /mnt/media/library/books:/books
-      - /mnt/media/library/books/:/audiobooks
+      - /mnt/ssd/media/downloads/:/downloads
+      - /mnt/ssd/media/library/books:/books
+      - /mnt/ssd/media/library/books/:/audiobooks
     restart: unless-stopped
     ports:
       - "5299:5299"
@@ -24,8 +24,8 @@ services:
       - TZ=${TZ}
     volumes:
       - /mnt/ssd/configs/sonarr:/config
-      - /mnt/media/downloads:/downloads
-      - /mnt/media/library/series:/series
+      - /mnt/ssd/media/downloads:/downloads
+      - /mnt/ssd/media/library/series:/series
     restart: unless-stopped
     ports:
       - "8989:8989"
@@ -38,8 +38,8 @@ services:
       - TZ=${TZ}
     volumes:
       - /mnt/ssd/configs/radarr:/config
-      - /mnt/media/downloads:/downloads
-      - /mnt/media/library/movies:/movies
+      - /mnt/ssd/media/downloads:/downloads
+      - /mnt/ssd/media/library/movies:/movies
     restart: unless-stopped
     ports:
       - "7878:7878"
@@ -52,8 +52,8 @@ services:
       - TZ=${TZ}
     volumes:
       - /mnt/ssd/configs/bazarr:/config
-      - /mnt/media/library/movies:/movies
-      - /mnt/media/library/series:/series
+      - /mnt/ssd/media/library/movies:/movies
+      - /mnt/ssd/media/library/series:/series
     restart: unless-stopped
     ports:
       - "6767:6767"
@@ -68,7 +68,7 @@ services:
       - TORRENTING_PORT=6881
     volumes:
       - /mnt/ssd/configs/qbittorrent:/config
-      - /mnt/media/downloads:/downloads
+      - /mnt/ssd/media/downloads:/downloads
     ports:
       - "8080:8080"
     restart: unless-stopped
@@ -113,8 +113,8 @@ services:
     volumes:
       - /mnt/ssd/configs/tdarr/server:/app/server
       - /mnt/ssd/configs/tdarr/config:/app/configs
-      - /mnt/media/apps/tdarr/temp:/temp
-      - /mnt/media/library:/media
+      - /mnt/ssd/media/apps/tdarr/temp:/temp
+      - /mnt/ssd/media/library:/media
     
     restart: unless-stopped
 
@@ -127,7 +127,7 @@ services:
       - TZ=${TZ}
     volumes:
       - /mnt/ssd/configs/unpackerr:/config
-      - /mnt/media/downloads:/data
+      - /mnt/ssd/media/downloads:/data
     
     restart: unless-stopped
 
@@ -150,10 +150,10 @@ services:
     volumes:
       - /mnt/ssd/configs/jellyfin/config:/config
       - /mnt/ssd/configs/jellyfin/cache:/cache
-      - /mnt/media/library/movies:/media/movies
-      - /mnt/media/library/series:/media/series
-      - /mnt/media/library/music:/media/music
-      - /mnt/media/fonts:/usr/local/share/fonts/custom
+      - /mnt/ssd/media/library/movies:/media/movies
+      - /mnt/ssd/media/library/series:/media/series
+      - /mnt/ssd/media/library/music:/media/music
+      - /mnt/ssd/media/fonts:/usr/local/share/fonts/custom
     ports:
       - "8096:8096" 
       - "8920:8920"
@@ -178,8 +178,8 @@ services:
       - OAUTHLIB_RELAX_TOKEN_SCOPE=1
     volumes:
       - /mnt/ssd/configs/calibre-web/data:/config
-      - /mnt/media/library/books:/books
-      - /mnt/media/library/books/:/audiobooks
+      - /mnt/ssd/media/library/books:/books
+      - /mnt/ssd/media/library/books/:/audiobooks
     ports:
       - 8083:8083 
     

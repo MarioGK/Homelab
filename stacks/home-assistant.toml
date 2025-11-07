@@ -30,7 +30,5 @@ is_secret = false
 name = "pre_deploy"
 [provision.config]
 commands = [
-	"mkdir -p /mnt/ssd/home-assistant/config",
-	"chown -R 1000:1000 /mnt/ssd/home-assistant/config",
-	"chmod -R 755 /mnt/ssd/home-assistant/config",
+	"mkdir /mnt/ssd/home-assistant/config"
 ]

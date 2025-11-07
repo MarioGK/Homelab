@@ -31,8 +31,6 @@ is_secret = false
 name = "pre_deploy"
 [provision.config]
 commands = [
-    "mkdir -p /mnt/ssd/configs/caddy",
-    "mkdir -p /mnt/ssd/configs/caddy/config",
-    "chown -R 1000:1000 /mnt/ssd/configs/caddy",
-    "chmod -R 750 /mnt/ssd/configs/caddy",
+    "mkdir /mnt/ssd/configs/caddy",
+    "mkdir /mnt/ssd/configs/caddy/config",
 ]

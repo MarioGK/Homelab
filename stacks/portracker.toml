@@ -25,8 +25,5 @@ name = "pre_deploy"
 [provision.config]
 commands = [
   # Create config dir for portracker
-  "mkdir -p /mnt/ssd/configs/portracker/data",
-  # Ensure ownership and permissions match other services
-  "chown -R 1000:1000 /mnt/ssd/configs/portracker",
-  "chmod -R 750 /mnt/ssd/configs/portracker",
+  "mkdir /mnt/ssd/configs/portracker/data",
 ]

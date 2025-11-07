@@ -11,5 +11,5 @@ services:
       - ND_SESSIONTIMEOUT=24h
     volumes:
       - "/mnt/ssd/configs/navidrome:/data"
-      - "/mnt/media/library/music:/music"
+      - "/mnt/ssd/media/library/music:/music"
     restart: unless-stopped

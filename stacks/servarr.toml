@@ -31,25 +31,21 @@ name = "pre_deploy"
 [provision.config]
 commands = [
 	# Create base configs dir
-	"mkdir -p /mnt/ssd/configs/lazylibrarian/data",
-	"mkdir -p /mnt/ssd/configs/sonarr",
-	"mkdir -p /mnt/ssd/configs/radarr",
-	"mkdir -p /mnt/ssd/configs/lidarr/config",
-	"mkdir -p /mnt/ssd/configs/bazarr",
-	"mkdir -p /mnt/ssd/configs/qbittorrent",
-	"mkdir -p /mnt/ssd/configs/slskd",
-	"mkdir -p /mnt/ssd/configs/prowlarr",
-	"mkdir -p /mnt/ssd/configs/sabnzbd/config",
-	"mkdir -p /mnt/ssd/configs/tdarr/server",
-	"mkdir -p /mnt/ssd/configs/tdarr/config",
-	"mkdir -p /mnt/ssd/configs/unpackerr",
-	"mkdir -p /mnt/ssd/configs/jellyseerr",
-	"mkdir -p /mnt/ssd/configs/qbitmanage/config",
-	"mkdir -p /mnt/ssd/configs/jellyfin/config",
-	"mkdir -p /mnt/ssd/configs/jellyfin/cache",
-	"mkdir -p /mnt/ssd/configs/calibre-web/data",
-
-	# Set ownership and permissions
-	"chown -R 1000:1000 /mnt/ssd/configs",
-	"chmod -R 750 /mnt/ssd/configs"
+	"mkdir /mnt/ssd/configs/lazylibrarian/data",
+	"mkdir /mnt/ssd/configs/sonarr",
+	"mkdir /mnt/ssd/configs/radarr",
+	"mkdir /mnt/ssd/configs/lidarr/config",
+	"mkdir /mnt/ssd/configs/bazarr",
+	"mkdir /mnt/ssd/configs/qbittorrent",
+	"mkdir /mnt/ssd/configs/slskd",
+	"mkdir /mnt/ssd/configs/prowlarr",
+	"mkdir /mnt/ssd/configs/sabnzbd/config",
+	"mkdir /mnt/ssd/configs/tdarr/server",
+	"mkdir /mnt/ssd/configs/tdarr/config",
+	"mkdir /mnt/ssd/configs/unpackerr",
+	"mkdir /mnt/ssd/configs/jellyseerr",
+	"mkdir /mnt/ssd/configs/qbitmanage/config",
+	"mkdir /mnt/ssd/configs/jellyfin/config",
+	"mkdir /mnt/ssd/configs/jellyfin/cache",
+	"mkdir /mnt/ssd/configs/calibre-web/data",
 ]

@@ -30,7 +30,5 @@ name = "pre_deploy"
 [provision.config]
 commands = [
     # Create config dir for speedtest-tracker
-    "mkdir -p /mnt/ssd/configs/speedtest-tracker",
-    "chown -R 1000:1000 /mnt/ssd/configs/speedtest-tracker",
-    "chmod -R 750 /mnt/ssd/configs/speedtest-tracker",
+    "mkdir /mnt/ssd/configs/speedtest-tracker"
 ]

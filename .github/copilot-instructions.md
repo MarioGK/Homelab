@@ -25,10 +25,10 @@ When creating new stacks, ALWAYS set the timezone to Sao Paulo (America/Sao_Paul
 # Storage layout
 
 ## Media storage 16TB RAID0
-Two 8TB drives are mounted in RAID0 at `/mnt/media`. This is the primary location for all media files.
+Two 8TB drives are mounted in RAID0 at `/mnt/ssd/media`. This is the primary location for all media files.
 It is using BTRFS filesystem with compression enabled.
 
-All media should be stored in `/mnt/media`. This includes:
+All media should be stored in `/mnt/ssd/media`. This includes:
 - Movies
 - TV Shows
 - Music
